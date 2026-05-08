@@ -26,10 +26,10 @@ class Database extends Config
      */
     public array $default = [
         'DSN'          => '',
-        'hostname'     => 'localhost',
+        'hostname'     => '127.0.0.1',
         'username'     => 'root',
         'password'     => '',
-        'database'     => 'etudiant',
+        'database'     => 'regime_db',
         'DBDriver'     => 'MySQLi',
         'DBPrefix'     => '',
         'pConnect'     => false,
@@ -80,7 +80,7 @@ class Database extends Config
     //     */
     //    public array $default = [
     //        'DSN'        => '',
-    //        'hostname'   => 'localhost',
+    //        'hostname'     => '127.0.0.1',
     //        'username'   => 'root',
     //        'password'   => 'root',
     //        'database'   => 'ci4',
@@ -107,7 +107,7 @@ class Database extends Config
     //     */
     //    public array $default = [
     //        'DSN'        => '',
-    //        'hostname'   => 'localhost',
+    //        'hostname'     => '127.0.0.1',
     //        'username'   => 'root',
     //        'password'   => 'root',
     //        'database'   => 'ci4',
