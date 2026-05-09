@@ -237,3 +237,8 @@ INSERT INTO admins (nom, email, password) VALUES
 --  25.0 à 29.9      → Surpoids
 --  >= 30.0          → Obésité
 -- ============================================================
+
+-- pour update la valeur de la remise
+--UPDATE parametres 
+--SET valeur = '30' 
+--WHERE cle = 'remise_gold';

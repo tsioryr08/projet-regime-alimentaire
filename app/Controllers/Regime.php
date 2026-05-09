@@ -100,6 +100,7 @@ class Regime extends BaseController
         }
 
         if ($imc === null || $imc === '') {
+            $remiseGold = $this->parametreModel->getRemiseGold();
             return $this->renderSuggestionView([
                 'error' => 'Valeur IMC manquante',
                 'regimes' => [],
@@ -107,6 +108,7 @@ class Regime extends BaseController
                 'imc' => null,
                 'categorie' => null,
                 'objectif' => null,
+                'remiseGold' => $remiseGold,
             ]);
         }
 
@@ -118,21 +120,25 @@ class Regime extends BaseController
 
         // Si categorie normale et aucun objectif choisi, afficher choix a l'utilisateur
         if ($categorie === 'normal' && $objectif === null) {
+            $remiseGold = $this->parametreModel->getRemiseGold();
             return $this->renderSuggestionView([
                 'regimes' => [],
                 'activites' => [],
                 'imc' => $imc,
                 'categorie' => $categorie,
                 'objectif' => null,
+                'remiseGold' => $remiseGold,
             ]);
         }
 
+        $remiseGold = $this->parametreModel->getRemiseGold();
         return $this->renderSuggestionView([
             'regimes' => $dataSuggestion['regimes'],
             'activites' => $dataSuggestion['activites'],
             'imc' => $imc,
             'categorie' => $categorie,
             'objectif' => $objectif,
+            'remiseGold' => $remiseGold,
         ]);
     }
 

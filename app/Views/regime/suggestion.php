@@ -2,7 +2,10 @@
 // Vue : suggestion de régimes et activités selon IMC + objectif
 $session = session();
 $isGoldActive = 0;
-$remiseGold = 15; // Default, sera synchronise avec JS
+// remiseGold passee dynamiquement depuis le controller
+if (!isset($remiseGold)) {
+    $remiseGold = 15; // Fallback si non defini
+}
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -162,7 +165,7 @@ $remiseGold = 15; // Default, sera synchronise avec JS
     <div class="gold-toggle-container" data-remise-gold="<?php echo $remiseGold ?>">
       <div class="gold-toggle-label">
         <span class="label-text">Devenir Gold maintenant</span>
-        <span class="label-desc">Obtenez 15% de remise sur tous les régimes</span>
+        <span class="label-desc">Obtenez <?php echo $remiseGold ?>% de remise sur tous les régimes</span>
       </div>
       <label class="toggle-switch">
         <input type="checkbox" id="goldToggle" data-is-gold="<?php echo $isGoldActive ?>" aria-label="Activer ou désactiver l'option Gold">
