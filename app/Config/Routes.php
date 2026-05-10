@@ -43,6 +43,7 @@ $routes->get('/imc', 'Imc::index');
 $routes->post('/imc/calculer', 'Imc::calculer');
 $routes->get('/imc/export-pdf', 'Imc::exportPdf');
 $routes->match(['get', 'post'], '/imc/resultat', 'Imc::resultat');
+$routes->post('imc/commander', 'Regime::commander');
 
 // Admin routes (auth)
 $routes->group('admin', ['namespace' => 'App\Controllers\Admin'], function($routes){

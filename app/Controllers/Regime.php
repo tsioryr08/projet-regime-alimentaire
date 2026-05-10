@@ -220,4 +220,78 @@ class Regime extends BaseController
         ]);
     }
 
+
+    public function commander()
+    {
+        $session = session();
+
+        $userId = $session->get('user_id');
+        if (!$userId) {
+            return redirect()->to(site_url('login'))
+                ->with('error', 'Veuillez vous connecter pour commander un régime.');
+        }
+
+        $regimeId = (int) ($this->request->getPost('regime_id') ?? 0);
+        $imc = $this->request->getPost('imc');
+        $objectif = $this->request->getPost('objectif');
+
+        if ($regimeId <= 0) {
+            return redirect()->back()->with('error', 'Régime invalide.');
+        }
+
+        $utilisateurModel = new UtilisateurModel();
+        $regimeModel = new RegimeModel();
+
+        $user = $utilisateurModel->find($userId);
+        if (!$user) {
+            return redirect()->back()->with('error', 'Utilisateur introuvable.');
+        }
+
+        $regime = $regimeModel->find($regimeId);
+        if (!$regime) {
+            return redirect()->back()->with('error', 'Régime introuvable.');
+        }
+
+        $solde = (float) ($user['solde_portefeuille'] ?? 0);
+        $prixBase = (float) ($regime['prix_base'] ?? 0);
+
+        if ($prixBase <= 0) {
+            return redirect()->back()->with('error', 'Ce régime ne peut pas être commandé (prix invalide).');
+        }
+
+        $isGold = (bool) $session->get('is_gold'); +
+        $remiseGold = 15; 
+        $prixFinal = $prixBase;
+
+        if ($isGold) {
+            $prixFinal = $prixBase * (1 - ($remiseGold / 100));
+        }
+
+        if ($solde < $prixFinal) {
+            $manque = $prixFinal - $solde;
+
+            $url = site_url('regime/suggestion') . '?imc=' . urlencode((string)$imc) . '&objectif=' . urlencode((string)$objectif);
+            return redirect()->to($url)->with(
+                'error',
+                'Solde insuffisant. Il vous manque ' . number_format($manque, 2, ',', ' ') . ' Ar pour commander.'
+            );
+        }
+
+        $nouveauSolde = $solde - $prixFinal;
+
+        $utilisateurModel->update($userId, [
+            'solde_portefeuille' => $nouveauSolde,
+        ]);
+
+        $session->setFlashdata('success',
+            'Commande effectuée : "' . ($regime['nom'] ?? 'Régime') . '" — payé '
+            . number_format($prixFinal, 2, ',', ' ')
+            . ' Ar. Nouveau solde: ' . number_format($nouveauSolde, 2, ',', ' ') . ' Ar.'
+        );
+
+        $url = site_url('regime/suggestion') . '?imc=' . urlencode((string)$imc) . '&objectif=' . urlencode((string)$objectif);
+        return redirect()->to($url);
+    }
 }
+
+

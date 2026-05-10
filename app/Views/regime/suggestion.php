@@ -193,6 +193,17 @@ if (!isset($remiseGold)) {
   </style>
 </head>
 <body>
+  <?php if (session()->getFlashdata('success')): ?>
+  <div class="alert alert-success">
+    <?= esc(session()->getFlashdata('success')) ?>
+  </div>
+<?php endif; ?>
+
+<?php if (session()->getFlashdata('error')): ?>
+  <div class="alert alert-danger">
+    <?= esc(session()->getFlashdata('error')) ?>
+  </div>
+<?php endif; ?>
   <div class="container">
     <h2 class="mb-4">Suggestions pour votre IMC</h2>
 
@@ -242,29 +253,48 @@ if (!isset($remiseGold)) {
             <?php if (!empty($regimes)): ?>
               <ul class="list-group">
                 <?php foreach ($regimes as $r): ?>
-                  <li class="list-group-item">
-                    <div class="d-flex justify-content-between">
-                      <div>
-                        <strong><?php echo esc($r['nom']) ?></strong>
-                        <div class="text-muted small"><?php echo esc($r['description'] ?? '') ?></div>
-                      </div>
-                      <div class="text-end">
-                        <?php if (isset($r['prix_base'])): ?>
-                          <?php $prixBase = (float) $r['prix_base']; ?>
-                          <span class="price-main" data-price-base="<?php echo $prixBase ?>">
-                            <?php echo number_format($prixBase, 2, ',', ' ') ?> Ar
-                          </span>
-                          <span class="price-note">⭐ Bénéficiez d'une remise si vous optez pour l'option Gold</span>
-                        <?php endif; ?>
-                        <?php if (isset($r['duree_jours'])): ?>
-                          <div style="margin-top:8px;">
-                            <span class="meta-pill duration-pill"><?php echo esc($r['duree_jours']) ?> jours</span>
-                          </div>
-                        <?php endif; ?>
-                      </div>
-                    </div>
-                  </li>
-                <?php endforeach; ?>
+  <li class="list-group-item">
+    <div class="d-flex justify-content-between">
+      <div>
+        <strong><?php echo esc($r['nom']) ?></strong>
+        <div class="text-muted small"><?php echo esc($r['description'] ?? '') ?></div>
+
+        <!-- Bouton Commander -->
+        <?php if (isset($r['id'])): ?>
+          <form action="<?= site_url('imc/commander') ?>" method="post" class="mt-2">
+            <?= csrf_field() ?>
+            <input type="hidden" name="regime_id" value="<?= esc($r['id']) ?>">
+
+            <!-- optionnel: garder le contexte pour revenir sur la même suggestion -->
+            <input type="hidden" name="imc" value="<?= esc($imc ?? '') ?>">
+            <input type="hidden" name="objectif" value="<?= esc($objectif ?? '') ?>">
+
+            <button type="submit" class="btn btn-sm btn-primary">
+              Commander ce régime
+            </button>
+          </form>
+        <?php endif; ?>
+      </div>
+
+      <div class="text-end">
+        <?php if (isset($r['prix_base'])): ?>
+          <?php $prixBase = (float) $r['prix_base']; ?>
+          <span class="price-main" data-price-base="<?php echo $prixBase ?>">
+            <?php echo number_format($prixBase, 2, ',', ' ') ?> Ar
+          </span>
+          <span class="price-note">⭐ Bénéficiez d'une remise si vous optez pour l'option Gold</span>
+        <?php endif; ?>
+
+        <?php if (isset($r['duree_jours'])): ?>
+          <div style="margin-top:8px;">
+            <span class="meta-pill duration-pill"><?php echo esc($r['duree_jours']) ?> jours</span>
+          </div>
+        <?php endif; ?>
+      </div>
+    </div>
+  </li>
+<?php endforeach; ?>
+             
               </ul>
             <?php else: ?>
               <p class="text-muted">Aucun régime trouvé pour ces critères.</p>
