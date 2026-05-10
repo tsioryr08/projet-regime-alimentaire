@@ -12,21 +12,26 @@ $routes->get('/', function() {
 
 $routes->group('utilisateur', ['namespace' => 'App\Controllers\user'], function($routes){
 
+	//a faire : asina resaka filtre amin'zay tsy afaka modifier tout ze te himodif
+	//login et logout
     $routes->get('login', 'AuthController::login');
     $routes->post('login', 'AuthController::loginPost');
-
 	$routes->get('logout','ProfilController::logout');
 
+	//creation compte
     $routes->get('register', 'AuthController::register');
     $routes->post('register', 'AuthController::registerPost');
 
+	//resaka profil
 	$routes->get('profil','ProfilController::profil');
 	$routes->get('modifProfil','ProfilController::modif');
 	$routes->post('updateProfil','ProfilController::modifProfil');
 
+	//resaka code
 	$routes->get('saisirCode','WalletController::saisir');
 	$routes->post('traiterCode','WalletController::traiterCode');
 
+	//resaka gold
 	$routes->get('devenirGold',"ProfilController::devenirGold");
 	$routes->get('payerGold',"ProfilController::payerGold");
 
