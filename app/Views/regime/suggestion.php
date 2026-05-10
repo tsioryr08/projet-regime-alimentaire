@@ -14,20 +14,18 @@ if (!isset($remiseGold)) {
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>Suggestions — Régime & Activités</title>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <?= $this->include('user/_navbar_styles') ?>
   <style>
     :root{
       --bg:#f8faf8; --card:#ffffff; --muted:#6b7280; --accent:#5f8f74; --accent-2:#c78ca7; --success:#10b981; --glass: rgba(255,255,255,0.72);
     }
     html,body{height:100%}
     body{
-      background:
-        radial-gradient(circle at top left, rgba(169, 205, 177, 0.35) 0%, rgba(169, 205, 177, 0) 36%),
-        radial-gradient(circle at bottom right, rgba(244, 198, 214, 0.32) 0%, rgba(244, 198, 214, 0) 40%),
-        linear-gradient(180deg,#fbfcfb 0,#fff8fb 42%,var(--bg) 100%);
-      padding:32px; font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
-      color:#0f172a; -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;
+      font-family: 'Poppins', system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+      color:var(--ink); -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;
     }
-    .container{max-width:1100px;margin:0 auto}
+    .suggestion-container{max-width:1100px;margin:0 auto;padding:56px 0 48px}
     h2{font-size:26px;margin-bottom:18px;color:var(--accent)}
 
     .card{background:linear-gradient(180deg, rgba(255,255,255,.96) 0%, rgba(255,248,251,.94) 100%);border-radius:14px;box-shadow:0 14px 30px rgba(119,96,111,.10);border:1px solid rgba(169,205,177,.22)}
@@ -186,13 +184,14 @@ if (!isset($remiseGold)) {
     }
 
     @media (max-width: 900px){
-      .container{padding:0 16px}
+      .suggestion-container{padding:56px 16px 48px}
       .list-group-item{margin-bottom:12px}
       .gold-toggle-container{flex-direction: column;gap: 12px;align-items: flex-start}
     }
   </style>
 </head>
 <body>
+<?= $this->include('user/_navbar') ?>
   <?php if (session()->getFlashdata('success')): ?>
   <div class="alert alert-success">
     <?= esc(session()->getFlashdata('success')) ?>
@@ -204,7 +203,7 @@ if (!isset($remiseGold)) {
     <?= esc(session()->getFlashdata('error')) ?>
   </div>
 <?php endif; ?>
-  <div class="container">
+  <main class="suggestion-container">
     <h2 class="mb-4">Suggestions pour votre IMC</h2>
 
     <?php if (!empty($error)): ?>
@@ -351,14 +350,14 @@ if (!isset($remiseGold)) {
         </div>
       </div>
     <?php endif; ?>
-  </div>
+  </main>
 
   <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
   <script src="/js/gold-toggle.js"></script>
   <script>
     document.getElementById('exportPdf')?.addEventListener('click', async () => {
-      const container = document.querySelector('.container');
+      const container = document.querySelector('.suggestion-container');
       if (!container) return alert('Rien à exporter');
 
       document.body.classList.add('pdf-export-mode');
@@ -377,5 +376,7 @@ if (!isset($remiseGold)) {
         .finally(() => document.body.classList.remove('pdf-export-mode'));
     });
   </script>
+  <?= $this->include('user/_footer') ?>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

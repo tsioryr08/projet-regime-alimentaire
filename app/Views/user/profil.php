@@ -5,7 +5,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Mon profil</title>
 
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
 <link href="https://fonts.googleapis.com/css?family=Raleway:400,600,700" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<?= $this->include('user/_navbar_styles') ?>
 
 <style>
 /* -------------------- Palette (sage + pink like profile.php) -------------------- */
@@ -30,42 +33,29 @@
 }
 
 /* -------------------- Base -------------------- */
-*{ box-sizing:border-box; margin:0; padding:0; font-family:Raleway, system-ui, -apple-system, Segoe UI, Roboto, sans-serif; }
+.profile-page *{ box-sizing:border-box; margin:0; padding:0; font-family:Raleway, system-ui, -apple-system, Segoe UI, Roboto, sans-serif; }
 
-body{
-  min-height:100vh;
-  padding:30px 16px;
-  display:flex;
-  justify-content:center;
-  color:var(--ink);
-  background:
-    radial-gradient(circle at top left, rgba(169, 205, 177, .55), transparent 34%),
-    radial-gradient(circle at bottom right, rgba(244, 198, 214, .60), transparent 36%),
-    linear-gradient(180deg, #fbfcfb 0%, #fff7fa 100%);
-}
-
-.container{
+.profile-page{
   width:100%;
   max-width:920px;
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: 22px;
-  overflow:hidden;
-  box-shadow: var(--shadow);
-  backdrop-filter: blur(10px);
+  margin: 0 auto;
+  padding: 56px 16px 48px;
 }
 
-/* -------------------- Header -------------------- */
 .header{
-  padding:24px 22px;
-  border-bottom: 1px solid rgba(163, 185, 169, 0.18);
-  background: linear-gradient(135deg, rgba(169, 205, 177, 0.18) 0%, rgba(244, 198, 214, 0.18) 100%);
+  /* match accueil hero-card / hero-main */
+  background: rgba(255, 255, 255, .82);
+  border: 1px solid rgba(111, 146, 123, .15);
+  border-radius: 28px;
+  box-shadow: 0 24px 50px rgba(33, 50, 39, .08);
+  overflow: hidden;
 }
 
 .header-top{
   display:flex;
   align-items:center;
   gap:16px;
+  padding: 34px;
 }
 
 .avatar{
@@ -131,11 +121,11 @@ body{
 }
 
 .card{
-  border: 1px solid rgba(163, 185, 169, 0.18);
-  border-radius: 18px;
+  border: 1px solid rgba(111, 146, 123, .14);
+  border-radius: 22px;
   padding: 16px;
   background: linear-gradient(180deg, rgba(255,255,255,0.96) 0%, rgba(250, 252, 250, 0.98) 100%);
-  box-shadow: 0 10px 28px rgba(33, 50, 39, 0.05);
+  box-shadow: 0 12px 28px rgba(33, 50, 39, .06);
 }
 
 .card h3{
@@ -185,7 +175,7 @@ body{
   margin-top:18px;
 }
 
-.btn{
+.profile-page .btn{
   display:inline-flex;
   align-items:center;
   justify-content:center;
@@ -199,24 +189,24 @@ body{
   color: var(--ink);
   transition: .2s;
 }
-.btn:hover{
+.profile-page .btn:hover{
   transform: translateY(-1px);
   box-shadow: 0 12px 20px rgba(33, 50, 39, .10);
 }
 
-.btn-primary{
+.profile-page .btn-primary{
   background: linear-gradient(135deg, var(--sage) 0%, #89b69e 100%);
   color:#234031;
 }
-.btn-secondary{
+.profile-page .btn-secondary{
   background: linear-gradient(135deg, var(--pink-soft) 0%, rgba(255,255,255,.65) 100%);
   color:#4b5a51;
 }
-.btn-gold{
+.profile-page .btn-gold{
   background: linear-gradient(135deg, #efe0c1 0%, #e3c98f 100%);
   color:#6f5b2f;
 }
-.btn-danger{
+.profile-page .btn-danger{
   background: linear-gradient(135deg, var(--pink) 0%, #e9adc2 100%);
   color:#6f3f57;
 }
@@ -231,30 +221,32 @@ body{
   .row{ flex-direction:column; align-items:flex-start; }
   .value{ text-align:left; }
   .actions{ flex-direction:column; }
-  .btn{ width:100%; }
+  .profile-page .btn{ width:100%; }
 }
 </style>
 </head>
 
 <body>
-  <div class="container">
+<?= $this->include('user/_navbar') ?>
+<?php $profilUser = $user ?? []; ?>
+  <main class="profile-page">
 
     <div class="header">
       <div class="header-top">
         <div class="avatar">
-          <?php if(!empty($user['photo_url'])): ?>
-            <img src="<?= esc($user['photo_url']) ?>" alt="Photo de profil">
+          <?php if(!empty($profilUser['photo_url'])): ?>
+            <img src="<?= esc($profilUser['photo_url']) ?>" alt="Photo de profil">
           <?php else: ?>
             <div class="avatar-fallback">
-              <?= strtoupper(mb_substr($user['prenom'] ?? 'U', 0, 1)) ?>
-              <?= strtoupper(mb_substr($user['nom'] ?? 'S', 0, 1)) ?>
+              <?= strtoupper(mb_substr($profilUser['prenom'] ?? 'U', 0, 1)) ?>
+              <?= strtoupper(mb_substr($profilUser['nom'] ?? 'S', 0, 1)) ?>
             </div>
           <?php endif; ?>
         </div>
 
         <div>
           <h1>Mon profil</h1>
-          <p>Bienvenue <?= esc($user['prenom']) ?></p>
+          <p>Bienvenue <?= esc($profilUser['prenom'] ?? 'sur votre espace') ?></p>
         </div>
       </div>
     </div>
@@ -275,27 +267,27 @@ body{
 
           <div class="row">
             <span class="label">Nom</span>
-            <span class="value"><?= esc($user['nom']) ?></span>
+            <span class="value"><?= esc($profilUser['nom'] ?? '-') ?></span>
           </div>
 
           <div class="row">
             <span class="label">Prénom</span>
-            <span class="value"><?= esc($user['prenom']) ?></span>
+            <span class="value"><?= esc($profilUser['prenom'] ?? '-') ?></span>
           </div>
 
           <div class="row">
             <span class="label">Email</span>
-            <span class="value"><?= esc($user['email']) ?></span>
+            <span class="value"><?= esc($profilUser['email'] ?? '-') ?></span>
           </div>
 
           <div class="row">
             <span class="label">Genre</span>
-            <span class="value"><?= ucfirst(esc($user['genre'])) ?></span>
+            <span class="value"><?= !empty($profilUser['genre']) ? ucfirst(esc($profilUser['genre'])) : '-' ?></span>
           </div>
 
           <div class="row">
             <span class="label">Naissance</span>
-            <span class="value"><?= date('d/m/Y', strtotime($user['date_naissance'])) ?></span>
+            <span class="value"><?= !empty($profilUser['date_naissance']) ? date('d/m/Y', strtotime($profilUser['date_naissance'])) : '-' ?></span>
           </div>
         </div>
 
@@ -304,17 +296,17 @@ body{
 
           <div class="row">
             <span class="label">Taille</span>
-            <span class="value"><?= esc($user['taille']) ?> cm</span>
+            <span class="value"><?= isset($profilUser['taille']) ? esc($profilUser['taille']) . ' cm' : '-' ?></span>
           </div>
 
           <div class="row">
             <span class="label">Poids</span>
-            <span class="value"><?= esc($user['poids']) ?> kg</span>
+            <span class="value"><?= isset($profilUser['poids']) ? esc($profilUser['poids']) . ' kg' : '-' ?></span>
           </div>
 
           <div class="row">
             <span class="label">Objectif</span>
-            <span class="value"><?= esc($user['objectif']) ?></span>
+            <span class="value"><?= esc($profilUser['objectif'] ?? '-') ?></span>
           </div>
         </div>
 
@@ -323,13 +315,13 @@ body{
 
           <div class="row">
             <span class="label">Solde</span>
-            <span class="value"><?= number_format($user['solde_portefeuille'], 0, ',', ' ') ?> Ar</span>
+            <span class="value"><?= number_format((float)($profilUser['solde_portefeuille'] ?? 0), 0, ',', ' ') ?> Ar</span>
           </div>
 
           <div class="row">
             <span class="label">Statut</span>
             <span class="value">
-              <?php if($user['is_gold']): ?>
+              <?php if(!empty($profilUser['is_gold'])): ?>
                 <span class="badge badge-gold">Gold</span>
               <?php else: ?>
                 <span class="badge">Standard</span>
@@ -339,7 +331,7 @@ body{
 
           <div class="row">
             <span class="label">Inscrit depuis</span>
-            <span class="value"><?= date('d/m/Y', strtotime($user['created_at'])) ?></span>
+            <span class="value"><?= !empty($profilUser['created_at']) ? date('d/m/Y', strtotime($profilUser['created_at'])) : '-' ?></span>
           </div>
         </div>
 
@@ -347,7 +339,7 @@ body{
           <h3>Photo de profil</h3>
           <div class="row">
             <span class="label">Statut</span>
-            <span class="value"><?= !empty($user['photo_url']) ? 'Définie' : 'Non définie' ?></span>
+            <span class="value"><?= !empty($profilUser['photo_url']) ? 'Définie' : 'Non définie' ?></span>
           </div>
           <div class="row">
             <span class="label">Action</span>
@@ -363,5 +355,15 @@ body{
         <a href="/utilisateur/modifProfil" class="btn btn-primary">Modifier</a>
         <a href="/utilisateur/saisirCode" class="btn btn-secondary">Code</a>
         <a href="/utilisateur/devenirGold" class="btn btn-gold">Devenir Gold</a>
-        <a href="/utilisateur/logout" class="btn*
+        <a href="/utilisateur/logout" class="btn btn-danger">Déconnexion</a>
+      </div>
+
+    </div>
+  </main>
+
+  <?= $this->include('user/_footer') ?>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
         

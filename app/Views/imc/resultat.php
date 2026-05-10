@@ -16,15 +16,12 @@ function getEmojiCategorie(string $code): string {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Résultat IMC - Régime Alimentaire</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
-    <style>
-        body {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            padding: 30px 20px;
-        }
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <?= $this->include('user/_navbar_styles') ?>    <style>
         .container-resultat {
             max-width: 800px;
+            padding-top: 56px;
+            padding-bottom: 48px;
         }
         .card {
             border-radius: 15px;
@@ -93,6 +90,7 @@ function getEmojiCategorie(string $code): string {
     </style>
 </head>
 <body>
+<?= $this->include('user/_navbar') ?>
     <div class="container container-resultat">
         
         <?php if (!empty($resultat)): ?>
@@ -185,5 +183,6 @@ function getEmojiCategorie(string $code): string {
             window.location.href = queryString ? `/imc/export-pdf?${queryString}` : '/imc/export-pdf';
         }
     </script>
+    <?= $this->include('user/_footer') ?>
 </body>
 </html>

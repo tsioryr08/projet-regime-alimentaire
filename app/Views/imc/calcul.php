@@ -6,18 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Calcul IMC - Régime Alimentaire</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <?= $this->include('user/_navbar_styles') ?>
     <style>
-        body {
-            background:
-                radial-gradient(circle at top left, rgba(244, 198, 214, 0.34) 0%, rgba(244, 198, 214, 0) 35%),
-                radial-gradient(circle at bottom right, rgba(169, 205, 177, 0.32) 0%, rgba(169, 205, 177, 0) 40%),
-                linear-gradient(135deg, #fbfcfb 0%, #fff7fa 100%);
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-        }
         .container-imc {
             background: linear-gradient(180deg, rgba(255,255,255,0.96) 0%, rgba(255,248,251,0.96) 100%);
             border-radius: 20px;
@@ -25,6 +16,9 @@
             border: 1px solid rgba(244, 198, 214, 0.24);
             padding: 40px;
             max-width: 500px;
+            margin: 56px auto 48px;
+                width: 100%;
+            flex: 1;
         }
         .form-group {
             margin-bottom: 25px;
@@ -172,6 +166,7 @@
     </style>
 </head>
 <body>
+    <?= $this->include('user/_navbar') ?>
     <div class="container-imc">
         <h1>Calcul de l'IMC</h1>
         
@@ -233,5 +228,6 @@
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="/js/imc.js"></script>
+    <?= $this->include('user/_footer') ?>
 </body>
 </html>

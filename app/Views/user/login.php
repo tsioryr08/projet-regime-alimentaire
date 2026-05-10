@@ -166,6 +166,8 @@
 
     <div class="register-link">
         Pas encore de compte ? <a href="/utilisateur/register">Créer un compte</a>
+        <br>
+        Vous êtes administrateur ? <a href="<?= site_url('admin/auth/login') ?>">Se connecter ici</a>
     </div>
 
 </form>

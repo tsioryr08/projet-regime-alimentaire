@@ -317,71 +317,7 @@
 </head>
 
 <body>
-    <nav class="navbar navbar-expand-lg topbar">
-        <div class="container py-2">
-            <a class="navbar-brand brand" href="<?= site_url('utilisateur/accueil') ?>">Regime <span>Pro</span></a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="mainNav">
-    <ul class="navbar-nav ms-auto align-items-lg-center gap-lg-2">
-
-        <li class="nav-item">
-            <a class="nav-link" href="<?= site_url('utilisateur/profil') ?>">
-                Profil
-            </a>
-        </li>
-
-        <li class="nav-item">
-            <a class="nav-link" href="<?= site_url('utilisateur/profil') ?>">
-                <img class="img-logo"
-                     src="<?= base_url('wallet.png') ?>"
-                     alt="wallet">
-
-                <?= esc($user['solde_portefeuille']); ?> Ar
-            </a>
-        </li>
-
-        <?php if (($user['is_gold'] ?? 0) == 1): ?>
-
-            <li class="nav-item">
-                <a class="nav-link" href="#">
-                    <img class="img-logo"
-                         src="<?= base_url('crown.png') ?>"
-                         alt="gold">
-
-                    Gold
-                </a>
-            </li>
-
-        <?php else: ?>
-
-            <li class="nav-item">
-                <a class="btn btn-warning rounded-pill px-3 fw-semibold"
-                   href="<?= site_url('utilisateur/devenirGold') ?>">
-                    Devenir membre Gold
-                </a>
-            </li>
-
-        <?php endif; ?>
-
-        <li class="nav-item">
-            <a class="nav-link" href="<?= site_url('imc') ?>">
-                IMC
-            </a>
-        </li>
-
-        <li class="nav-item">
-            <a class="nav-link" href="<?= site_url('regime/suggestion') ?>">
-                Suggestion
-            </a>
-        </li>
-
-    </ul>
-</div>
-           
-        </div>
-    </nav>
+    <?= $this->include('user/_navbar') ?>
 
     <main class="container hero">
         <section class="hero-card">
@@ -449,29 +385,7 @@
             </p>
         </section>
     </main>
-    <footer class="footer mt-5">
-        <div class="container">
-            <div class="footer-content">
-                <div>
-                    <h5 class="footer-brand">Regime <span>Pro</span></h5>
-                    <p class="footer-text">
-                        Votre compagnon bien-être pour suivre votre progression,
-                        améliorer vos habitudes et atteindre vos objectifs santé.
-                    </p>
-                </div>
-
-                <div class="footer-links">
-                    <a href="<?= site_url('utilisateur/profil') ?>">Profil</a>
-                    <a href="<?= site_url('imc') ?>">IMC</a>
-                    <a href="<?= site_url('regime/suggestion') ?>">Suggestions</a>
-                </div>
-            </div>
-
-            <div class="footer-bottom">
-                © <?= date('Y') ?> Regime Pro — Tous droits réservés.
-            </div>
-        </div>
-    </footer>
+    <?= $this->include('user/_footer') ?>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>

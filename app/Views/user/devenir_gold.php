@@ -4,50 +4,38 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Devenir Gold</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css?family=Raleway:400,600,700" rel="stylesheet">
+<?= $this->include('user/_navbar_styles') ?>
 
 <style>
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: Raleway, sans-serif;
-}
+.profile-reset * { box-sizing: border-box; }
 
-body {
-    background: #f5f6f8;
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 30px;
-    color: #111827;
-}
-
-.container {
+.gold-page {
     width: 100%;
-    max-width: 850px;
-    background: white;
-    border-radius: 14px;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.06);
-    overflow: hidden;
+    max-width: 920px;
+    margin: 0 auto;
+    padding: 56px 16px 48px;
 }
 
-.header {
-    padding: 30px;
-    border-bottom: 1px solid #eee;
-    text-align: center;
+.header{
+    background: rgba(255, 255, 255, .82);
+    border: 1px solid rgba(111, 146, 123, .15);
+    border-radius: 0;
+    box-shadow: 0 24px 50px rgba(33, 50, 39, .08);
+    overflow: visible;
 }
 
-.header h1 {
+.header h1{
     font-size: 24px;
     font-weight: 700;
+    margin: 0 0 8px 0;
 }
 
-.header p {
-    margin-top: 6px;
+.header p{
+    margin: 0;
     color: #6b7280;
-    font-size: 14px;
 }
 
 .content {
@@ -110,10 +98,11 @@ body {
 }
 
 .card {
-    border: 1px solid #eee;
-    border-radius: 12px;
+    border: 1px solid rgba(111, 146, 123, .14);
+    border-radius: 22px;
     padding: 18px;
-    background: #fff;
+    background: linear-gradient(180deg, rgba(255,255,255,0.96) 0%, rgba(250, 252, 250, 0.98) 100%);
+    box-shadow: 0 12px 28px rgba(33, 50, 39, .06);
 }
 
 .card h3 {
@@ -129,15 +118,15 @@ body {
 /* highlight card */
 .card.highlight {
     border-color: #f59e0b;
-    background: #fffbeb;
+    background: linear-gradient(180deg, rgba(255,250,235,1), rgba(255,250,235,.95));
 }
 
 /* warning */
 .warning {
-    background: #fafafa;
-    border: 1px solid #eee;
+    background: rgba(255,255,255,.92);
+    border: 1px solid rgba(111,146,123,.12);
     padding: 14px;
-    border-radius: 10px;
+    border-radius: 12px;
     font-size: 13px;
     color: #374151;
     margin-top: 10px;
@@ -150,10 +139,10 @@ body {
     margin-top: 25px;
 }
 
-.btn {
+.gold-page .btn {
     flex: 1;
     padding: 12px;
-    border-radius: 10px;
+    border-radius: 12px;
     text-align: center;
     text-decoration: none;
     font-weight: 600;
@@ -161,21 +150,21 @@ body {
     transition: 0.2s;
 }
 
-.btn-secondary {
+.gold-page .btn-secondary {
     background: #f3f4f6;
     color: #111827;
 }
 
-.btn-secondary:hover {
+.gold-page .btn-secondary:hover {
     background: #e5e7eb;
 }
 
-.btn-primary {
+.gold-page .btn-primary {
     background: #111827;
     color: white;
 }
 
-.btn-primary:hover {
+.gold-page .btn-primary:hover {
     background: #000;
 }
 
@@ -188,8 +177,8 @@ body {
 </head>
 
 <body>
-
-<div class="container">
+<?= $this->include('user/_navbar') ?>
+<main class="gold-page">
 
     <div class="header">
         <h1>Devenir membre Gold</h1>
@@ -247,7 +236,8 @@ body {
 
     </div>
 
-</div>
-
+</main>
+<?= $this->include('user/_footer') ?>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

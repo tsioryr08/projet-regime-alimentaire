@@ -19,19 +19,20 @@
     }
   });
 
-  const gridColor = 'rgba(15,23,42,.08)';
-  const labelColor = '#334155';
+  const gridColor = 'rgba(111,146,123,.12)';
+  const labelColor = '#4b5a51';
+  const chartPalette = ['#a9cdb1', '#f4c6d6', '#6f927b', '#c984a1', '#eef6ef', '#fff3f7', '#89b69e', '#dba4bb'];
 
   const commonOptions = {
     responsive: true,
     maintainAspectRatio: false,
     plugins: {
-      legend: { labels: { color: labelColor, font: { family: 'Inter', weight: '600' } } },
+      legend: { labels: { color: labelColor, font: { family: 'Poppins', weight: '600' } } },
       tooltip: {
-        backgroundColor: '#0f172a',
-        titleColor: '#fff',
-        bodyColor: '#e2e8f0',
-        borderColor: '#1e293b',
+        backgroundColor: '#203026',
+        titleColor: '#fff7fa',
+        bodyColor: '#eef6ef',
+        borderColor: '#6f927b',
         borderWidth: 1
       }
     },
@@ -50,7 +51,7 @@
         labels: hasObjectives ? objectiveLabels : ['Aucune donnée'],
         datasets: [{
           data: hasObjectives ? objectiveValues : [1],
-          backgroundColor: hasObjectives ? ['#4f46e5', '#22c55e', '#f59e0b'] : ['#e5e7eb'],
+          backgroundColor: hasObjectives ? chartPalette.slice(0, 3) : ['#eef6ef'],
           borderColor: '#ffffff',
           borderWidth: 4,
           hoverOffset: 4
@@ -58,7 +59,7 @@
       },
       options: {
         responsive: true,
-        cutout: '64%',
+        cutout: '58%',
         plugins: { legend: { position: 'bottom', labels: { color: labelColor, padding: 18, usePointStyle: true } } }
       }
     });
@@ -74,7 +75,7 @@
         datasets: [{
           label: 'Suggestions',
           data: hasRegimes ? regimeValues : [1],
-          backgroundColor: hasRegimes ? ['#4f46e5', '#0ea5e9', '#22c55e', '#f59e0b', '#ef4444', '#a78bfa', '#7dd3fc', '#86efac'] : ['#e5e7eb'],
+          backgroundColor: hasRegimes ? chartPalette : ['#eef6ef'],
           borderRadius: 14,
           borderSkipped: false,
           maxBarThickness: 42
@@ -88,7 +89,7 @@
         },
         scales: {
           x: { ticks: { color: labelColor }, grid: { display: false } },
-          y: { ticks: { color: labelColor, precision: 0 }, grid: { color: gridColor } }
+          y: { beginAtZero: true, ticks: { color: labelColor, precision: 0 }, grid: { color: gridColor } }
         }
       }
     });
@@ -104,7 +105,7 @@
         labels: hasGold ? goldLabels : ['Aucune donnée'],
         datasets: [{
           data: hasGold ? [goldData.gold, goldData.nonGold] : [1],
-          backgroundColor: hasGold ? ['#f59e0b', '#38bdf8'] : ['#e5e7eb'],
+          backgroundColor: hasGold ? ['#c984a1', '#a9cdb1'] : ['#eef6ef'],
           borderColor: '#ffffff',
           borderWidth: 4,
           hoverOffset: 4

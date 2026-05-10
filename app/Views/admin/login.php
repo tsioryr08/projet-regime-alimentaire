@@ -1,83 +1,180 @@
 <?php
 helper('form');
 ?>
-<!doctype html>
+<!DOCTYPE html>
 <html lang="fr">
+
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>Admin — Connexion</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <style>
-    :root{--c-bg:#f0f2f5;--c-surface:#ffffff;--c-sidebar:#0f1729;--c-primary:#2563eb;--c-primary-h:#1d4ed8;--c-accent:#06b6d4;--c-danger:#ef4444;--c-success:#22c55e;--c-text:#1e293b;--c-muted:#64748b;--c-border:#e2e8f0;--radius:8px;--radius-lg:12px;--shadow-md:0 4px 16px rgba(0,0,0,.10);--font:'Inter',system-ui,sans-serif}
-    *{box-sizing:border-box} body{margin:0;min-height:100vh;font-family:var(--font);background:linear-gradient(135deg,#0f1729 0%,#1e3a5f 50%,#0f1729 100%);color:var(--c-text)}
-    .login-shell{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px}
-    .login-card{width:100%;max-width:460px;background:var(--c-surface);border-radius:var(--radius-lg);box-shadow:0 20px 60px rgba(0,0,0,.35);padding:40px 36px}
-    .login-logo{display:flex;align-items:center;gap:12px;margin-bottom:28px}
-    .logo-icon{width:42px;height:42px;border-radius:10px;background:linear-gradient(135deg,var(--c-primary),var(--c-accent));display:grid;place-items:center;flex:none;box-shadow:0 10px 24px rgba(37,99,235,.22)}
-    .logo-icon svg{width:20px;height:20px;fill:#fff}
-    .login-logo h1{margin:0;font-size:20px;font-weight:800;color:var(--c-text);line-height:1.1}
-    .login-logo span{display:block;color:var(--c-muted);font-size:11px;margin-top:3px}
-    .login-card h2{margin:0 0 6px;font-size:22px;font-weight:800}
-    .subtitle{margin:0 0 26px;color:var(--c-muted);font-size:13px}
-    .field-group{margin-bottom:16px}
-    .field-group label{display:block;font-size:13px;font-weight:700;margin-bottom:6px;color:var(--c-text)}
-    .form-control, select{width:100%;padding:11px 12px;border:1.5px solid var(--c-border);border-radius:var(--radius);background:#f8fafc;font-size:14px;font-family:var(--font);color:var(--c-text);outline:none;transition:border-color .2s,box-shadow .2s}
-    .form-control:focus{border-color:var(--c-primary);box-shadow:0 0 0 3px rgba(37,99,235,.12)}
-    .remember-row{display:flex;align-items:center;justify-content:space-between;margin:4px 0 20px;font-size:13px;color:var(--c-muted)}
-    .remember-row label{display:flex;align-items:center;gap:8px;cursor:pointer}
-    input[type="checkbox"]{accent-color:var(--c-primary)}
-    .btn-primary{width:100%;border:none;border-radius:var(--radius);padding:12px 16px;background:var(--c-primary);color:#fff;font-weight:700;font-size:14px;cursor:pointer;transition:background .2s,transform .1s}
-    .btn-primary:hover{background:var(--c-primary-h)} .btn-primary:active{transform:scale(.99)}
-    .alert{display:flex;align-items:flex-start;gap:10px;padding:12px 14px;border-radius:var(--radius);margin-bottom:18px;font-size:13px;background:rgba(239,68,68,.08);color:#b91c1c}
-    .alert:before{content:"";width:10px;height:10px;border-radius:50%;background:var(--c-danger);margin-top:4px;flex:none}
-    .login-footer{margin-top:22px;text-align:center;font-size:12px;color:var(--c-muted)}
-  </style>
-  <link rel="stylesheet" href="<?= base_url('css/style.css') ?>">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin - Connexion</title>
+
+    <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Raleway, sans-serif;
+        }
+
+        body {
+            background:
+                radial-gradient(circle at top left, rgba(244, 198, 214, 0.35) 0%, rgba(244, 198, 214, 0) 34%),
+                radial-gradient(circle at bottom right, rgba(169, 205, 177, 0.30) 0%, rgba(169, 205, 177, 0) 38%),
+                linear-gradient(135deg, #fbfcfb 0%, #fff7fa 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        #loginForm {
+            background: linear-gradient(180deg, rgba(255,255,255,0.96) 0%, rgba(255,248,251,0.96) 100%);
+            width: 100%;
+            max-width: 450px;
+            padding: 40px;
+            border-radius: 22px;
+            box-shadow: 0 20px 50px rgba(119, 96, 111, 0.12);
+            border: 1px solid rgba(244, 198, 214, 0.26);
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 10px;
+            color: #2f4f3f;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #7a6a66;
+            margin-bottom: 35px;
+            font-size: 15px;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #4b5f52;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        input {
+            width: 100%;
+            padding: 13px 14px;
+            border: 1px solid #d1d5db;
+            border-radius: 10px;
+            font-size: 15px;
+            transition: 0.2s;
+        }
+
+        input:focus {
+            border-color: #a9cdb1;
+            outline: none;
+            box-shadow: 0 0 0 4px rgba(244,198,214,0.18);
+        }
+
+        input.invalid {
+            border-color: #ef4444;
+            background: #fef2f2;
+        }
+
+        .error {
+            color: #ef4444;
+            font-size: 13px;
+            margin-top: 5px;
+            display: block;
+        }
+
+        .server-error {
+            background: linear-gradient(135deg, rgba(244, 198, 214, 0.26) 0%, rgba(255, 241, 245, 0.95) 100%);
+            border: 1px solid rgba(201, 132, 161, 0.24);
+            border-radius: 14px;
+            padding: 12px;
+            margin-bottom: 20px;
+            color: #8b4c63;
+            font-size: 14px;
+        }
+
+        button {
+            width: 100%;
+            border: none;
+            padding: 13px 22px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            transition: 0.2s;
+            background: linear-gradient(135deg, #a9cdb1 0%, #89b69e 100%);
+            color: #234031;
+        }
+
+        button:hover {
+            transform: translateY(-1px);
+            background: linear-gradient(135deg, #9fc8aa 0%, #7ead95 100%);
+        }
+
+        .register-link {
+            text-align: center;
+            margin-top: 25px;
+            color: #7a6a66;
+            font-size: 14px;
+        }
+
+        .register-link a {
+            color: #7b4e63;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .register-link a:hover {
+            text-decoration: underline;
+        }
+    </style>
 </head>
+
 <body>
-  <div class="login-shell">
-    <div class="login-card">
-      <div class="login-logo">
-        <div class="logo-icon">
-          <svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+
+<form id="loginForm" method="post" action="<?= site_url('admin/auth/login') ?>" autocomplete="off">
+    <input type="hidden" name="<?= csrf_token() ?>" value="<?= csrf_hash() ?>">
+
+    <h1>Connexion administrateur</h1>
+    <p class="subtitle">Connectez-vous à votre compte admin</p>
+
+    <?php if (session()->getFlashdata('error')) : ?>
+        <div class="server-error">
+            <?= session()->getFlashdata('error') ?>
         </div>
-        <div>
-          <h1>Régime Pro</h1>
-          <span>Back Office administrateur</span>
-        </div>
-      </div>
+    <?php endif; ?>
 
-      <h2>Connexion administrateur</h2>
-      <p class="subtitle">Accédez au tableau de bord, aux statistiques et aux modules de gestion.</p>
-
-      <?php if (session()->getFlashdata('error')) : ?>
-        <div class="alert"><?= session()->getFlashdata('error') ?></div>
-      <?php endif; ?>
-      <form action="<?= site_url('admin/auth/login') ?>" method="post" autocomplete="off">
-        <input type="hidden" name="<?= csrf_token() ?>" value="<?= csrf_hash() ?>">
-        <div class="field-group">
-          <label for="email">Email</label>
-          <input id="email" name="email" type="email" class="form-control" required value="" placeholder="admin@regime-app.mg">
-        </div>
-
-        <div class="field-group">
-          <label for="password">Mot de passe</label>
-          <input id="password" name="password" type="password" class="form-control" required placeholder="••••••••">
-        </div>
-
-        <div class="remember-row">
-          <label><input type="checkbox" name="remember" > Se souvenir de moi</label>
-          <span>Accès sécurisé</span>
-        </div>
-
-        <button type="submit" class="btn-primary">Se connecter</button>
-      </form>
-
-      <div class="login-footer">Connexion réservée aux administrateurs autorisés.</div>
+    <div class="form-group">
+        <label>Email *</label>
+        <input id="email" name="email" type="email" required value="" placeholder="admin@regime-app.mg">
+        <span class="error" data-field="email"><?= validation_show_error('email') ?></span>
     </div>
-  </div>
+
+    <div class="form-group">
+        <label>Mot de passe *</label>
+        <input id="password" name="password" type="password" required placeholder="******">
+        <span class="error" data-field="password"><?= validation_show_error('password') ?></span>
+    </div>
+
+    <button type="submit">Se connecter</button>
+
+    <div class="register-link">
+        Connexion réservée aux administrateurs autorisés.
+        <br>
+        Vous êtes utilisateur ? <a href="<?= site_url('utilisateur/login') ?>">Se connecter ici</a>
+    </div>
+
+</form>
+
 </body>
 </html>

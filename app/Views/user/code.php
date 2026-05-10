@@ -4,25 +4,23 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Saisir un code</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
+    <?= $this->include('user/_navbar_styles') ?>
     <style>
-        * {
+        .code-page * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
             font-family: Raleway, sans-serif;
         }
 
-        body {
-            background: linear-gradient(135deg, #f3f4f6, #e5e7eb);
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 20px;
+        .code-page {
+            padding: 56px 16px 48px;
         }
 
-        .container {
+        .code-container {
             max-width: 500px;
             margin: 0 auto;
             background: white;
@@ -116,7 +114,7 @@
             margin-top: 30px;
         }
 
-        .btn {
+        .code-page .btn {
             padding: 12px 24px;
             border: none;
             border-radius: 10px;
@@ -130,22 +128,22 @@
             flex: 1;
         }
 
-        .btn-primary {
+        .code-page .btn-primary {
             background: #f59e0b;
             color: white;
         }
 
-        .btn-primary:hover {
+        .code-page .btn-primary:hover {
             background: #d97706;
             transform: translateY(-1px);
         }
 
-        .btn-secondary {
+        .code-page .btn-secondary {
             background: #d1d5db;
             color: #111827;
         }
 
-        .btn-secondary:hover {
+        .code-page .btn-secondary:hover {
             background: #9ca3af;
             transform: translateY(-1px);
         }
@@ -162,7 +160,9 @@
     </style>
 </head>
 <body>
-    <div class="container">
+<?= $this->include('user/_navbar') ?>
+    <main class="code-page">
+    <div class="code-container">
         <div class="header">
             <h1>Saisir un code</h1>
             <p>Entrez votre code pour gagner de l'argent</p>
@@ -200,5 +200,8 @@
             </form>
         </div>
     </div>
+    </main>
+    <?= $this->include('user/_footer') ?>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

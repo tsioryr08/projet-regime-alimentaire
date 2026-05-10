@@ -6,23 +6,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Modifier mon profil</title>
 
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
+    <?= $this->include('user/_navbar_styles') ?>
 
     <style>
-        * {
+        .profile-edit-page * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
             font-family: Raleway, sans-serif;
         }
 
-        body {
-            background: linear-gradient(135deg, #f3f4f6, #e5e7eb);
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 20px;
+        .profile-edit-page {
+            padding: 56px 16px 48px;
         }
 
         #regForm {
@@ -120,7 +118,7 @@
             margin-top: 30px;
         }
 
-        button {
+        #regForm button {
             border: none;
             padding: 12px 22px;
             border-radius: 10px;
@@ -129,7 +127,7 @@
             transition: 0.2s;
         }
 
-        button:hover {
+        #regForm button:hover {
             transform: translateY(-1px);
         }
 
@@ -182,7 +180,8 @@
 </head>
 
 <body>
-
+<?= $this->include('user/_navbar') ?>
+<main class="profile-edit-page">
 <form id="regForm" method="post" action="<?= base_url('utilisateur/updateProfil') ?>">
 
     <?php if(session()->has('errors')): ?>
@@ -296,6 +295,7 @@
         <span class="step"></span>
     </div>
 </form>
+</main>
 
 <script>
     let currentTab = 0;
@@ -526,7 +526,8 @@
     });
 </script>
 
-
+<?= $this->include('user/_footer') ?>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
 </body>
 </html>
