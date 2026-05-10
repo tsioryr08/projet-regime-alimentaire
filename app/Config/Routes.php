@@ -5,10 +5,19 @@ use CodeIgniter\Router\RouteCollection;
 /**
  * @var RouteCollection $routes
  */
-$routes->get('/', 'Home::index');
+$routes->get('/', function() {
+    return redirect()->to('/utilisateur/login');
+});
 
-// Routes Étudiant
-$routes->get('/etudiant', 'Etudiant::index');
+$routes->group('utilisateur', ['namespace' => 'App\Controllers\user'], function($routes){
+
+    $routes->get('login', 'AuthController::login');
+    $routes->post('login', 'AuthController::loginPost');
+
+    $routes->get('register', 'AuthController::register');
+    $routes->post('register', 'AuthController::registerPost');
+
+});
 
 // Routes IMC
 $routes->get('/imc', 'Imc::index');
