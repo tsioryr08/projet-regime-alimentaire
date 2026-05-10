@@ -1,0 +1,63 @@
+ERROR - 2026-05-09 18:58:37 --> Error connecting to the database: mysqli_sql_exception: Connection refused in /opt/lampp/htdocs/projet-regime-alimentaire/system/Database/MySQLi/Connection.php:201
+Stack trace:
+#0 /opt/lampp/htdocs/projet-regime-alimentaire/system/Database/MySQLi/Connection.php(201): mysqli->real_connect()
+#1 /opt/lampp/htdocs/projet-regime-alimentaire/system/Database/BaseConnection.php(555): CodeIgniter\Database\MySQLi\Connection->connect()
+#2 /opt/lampp/htdocs/projet-regime-alimentaire/system/Database/BaseConnection.php(795): CodeIgniter\Database\BaseConnection->initialize()
+#3 /opt/lampp/htdocs/projet-regime-alimentaire/system/Database/BaseBuilder.php(1649): CodeIgniter\Database\BaseConnection->query()
+#4 /opt/lampp/htdocs/projet-regime-alimentaire/system/Model.php(295): CodeIgniter\Database\BaseBuilder->get()
+#5 /opt/lampp/htdocs/projet-regime-alimentaire/system/BaseModel.php(714): CodeIgniter\Model->doFirst()
+#6 /opt/lampp/htdocs/projet-regime-alimentaire/app/Models/AdminModel.php(15): CodeIgniter\BaseModel->first()
+#7 /opt/lampp/htdocs/projet-regime-alimentaire/app/Controllers/Admin/Auth.php(38): App\Models\AdminModel->findByEmail()
+#8 /opt/lampp/htdocs/projet-regime-alimentaire/system/CodeIgniter.php(951): App\Controllers\Admin\Auth->loginPost()
+#9 /opt/lampp/htdocs/projet-regime-alimentaire/system/CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController()
+#10 /opt/lampp/htdocs/projet-regime-alimentaire/system/CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest()
+#11 /opt/lampp/htdocs/projet-regime-alimentaire/system/Boot.php(417): CodeIgniter\CodeIgniter->run()
+#12 /opt/lampp/htdocs/projet-regime-alimentaire/system/Boot.php(68): CodeIgniter\Boot::runCodeIgniter()
+#13 /opt/lampp/htdocs/projet-regime-alimentaire/public/index.php(59): CodeIgniter\Boot::bootWeb()
+#14 /opt/lampp/htdocs/projet-regime-alimentaire/system/rewrite.php(44): require_once('...')
+#15 {main}
+
+Next CodeIgniter\Database\Exceptions\DatabaseException: Connection refused in /opt/lampp/htdocs/projet-regime-alimentaire/system/Database/MySQLi/Connection.php:231
+Stack trace:
+#0 /opt/lampp/htdocs/projet-regime-alimentaire/system/Database/BaseConnection.php(555): CodeIgniter\Database\MySQLi\Connection->connect()
+#1 /opt/lampp/htdocs/projet-regime-alimentaire/system/Database/BaseConnection.php(795): CodeIgniter\Database\BaseConnection->initialize()
+#2 /opt/lampp/htdocs/projet-regime-alimentaire/system/Database/BaseBuilder.php(1649): CodeIgniter\Database\BaseConnection->query()
+#3 /opt/lampp/htdocs/projet-regime-alimentaire/system/Model.php(295): CodeIgniter\Database\BaseBuilder->get()
+#4 /opt/lampp/htdocs/projet-regime-alimentaire/system/BaseModel.php(714): CodeIgniter\Model->doFirst()
+#5 /opt/lampp/htdocs/projet-regime-alimentaire/app/Models/AdminModel.php(15): CodeIgniter\BaseModel->first()
+#6 /opt/lampp/htdocs/projet-regime-alimentaire/app/Controllers/Admin/Auth.php(38): App\Models\AdminModel->findByEmail()
+#7 /opt/lampp/htdocs/projet-regime-alimentaire/system/CodeIgniter.php(951): App\Controllers\Admin\Auth->loginPost()
+#8 /opt/lampp/htdocs/projet-regime-alimentaire/system/CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController()
+#9 /opt/lampp/htdocs/projet-regime-alimentaire/system/CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest()
+#10 /opt/lampp/htdocs/projet-regime-alimentaire/system/Boot.php(417): CodeIgniter\CodeIgniter->run()
+#11 /opt/lampp/htdocs/projet-regime-alimentaire/system/Boot.php(68): CodeIgniter\Boot::runCodeIgniter()
+#12 /opt/lampp/htdocs/projet-regime-alimentaire/public/index.php(59): CodeIgniter\Boot::bootWeb()
+#13 /opt/lampp/htdocs/projet-regime-alimentaire/system/rewrite.php(44): require_once('...')
+#14 {main}
+CRITICAL - 2026-05-09 18:58:37 --> CodeIgniter\Database\Exceptions\DatabaseException: Unable to connect to the database.
+Main connection [MySQLi]: Connection refused
+[Method: POST, Route: admin/auth/login]
+in SYSTEMPATH/Database/BaseConnection.php on line 606.
+ 1 SYSTEMPATH/Database/BaseConnection.php(795): CodeIgniter\Database\BaseConnection->initialize()
+ 2 SYSTEMPATH/Database/BaseBuilder.php(1649): CodeIgniter\Database\BaseConnection->query()
+ 3 SYSTEMPATH/Model.php(295): CodeIgniter\Database\BaseBuilder->get()
+ 4 SYSTEMPATH/BaseModel.php(714): CodeIgniter\Model->doFirst()
+ 5 APPPATH/Models/AdminModel.php(15): CodeIgniter\BaseModel->first()
+ 6 APPPATH/Controllers/Admin/Auth.php(38): App\Models\AdminModel->findByEmail()
+ 7 SYSTEMPATH/CodeIgniter.php(951): App\Controllers\Admin\Auth->loginPost()
+ 8 SYSTEMPATH/CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController()
+ 9 SYSTEMPATH/CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest()
+10 SYSTEMPATH/Boot.php(417): CodeIgniter\CodeIgniter->run()
+11 SYSTEMPATH/Boot.php(68): CodeIgniter\Boot::runCodeIgniter()
+12 FCPATH/index.php(59): CodeIgniter\Boot::bootWeb()
+13 SYSTEMPATH/rewrite.php(44): require_once('/opt/lampp/htdocs/projet-regime-alimentaire/public/index.php')
+CRITICAL - 2026-05-09 19:29:25 --> Error: Class "App\Models\EtudiantModel" not found
+[Method: GET, Route: etudiant]
+in APPPATH/Controllers/Etudiant.php on line 13.
+ 1 SYSTEMPATH/CodeIgniter.php(921): App\Controllers\Etudiant->__construct()
+ 2 SYSTEMPATH/CodeIgniter.php(488): CodeIgniter\CodeIgniter->createController()
+ 3 SYSTEMPATH/CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest()
+ 4 SYSTEMPATH/Boot.php(417): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH/Boot.php(68): CodeIgniter\Boot::runCodeIgniter()
+ 6 FCPATH/index.php(59): CodeIgniter\Boot::bootWeb()
+ 7 SYSTEMPATH/rewrite.php(44): require_once('/opt/lampp/htdocs/projet-regime-alimentaire/public/index.php')

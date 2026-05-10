@@ -1,0 +1,5 @@
+[04:54:52] Method is: 'GET' (uppercase: 'GET')
+[04:54:52] Method is: 'POST' (uppercase: 'POST')
+[04:54:52] POST detected (using strtoupper)
+[04:54:52] POST Data: {"nom":"TEST","description":null,"prix_base":"700","duree_jours":"28","variation_poids":"-4","sens_variation":"perte","pct_viande":"30","pct_poisson":"25","pct_volaille":"20","categorie_imc":"Surpoids"}
+[04:54:52] Insert: OK
