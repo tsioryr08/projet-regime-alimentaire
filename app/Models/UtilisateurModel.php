@@ -32,7 +32,6 @@ class UtilisateurModel extends Model
         'gold_paid_at'
     ];
 
-    // Dates
     protected $useTimestamps = true;
 
     protected $dateFormat    = 'datetime';
@@ -41,7 +40,6 @@ class UtilisateurModel extends Model
 
     protected $updatedField  = 'updated_at';
 
-    // Validation
     protected $validationRules = [
 
         'nom' => 'required|min_length[2]|max_length[100]',
@@ -96,4 +94,8 @@ class UtilisateurModel extends Model
 ];
 
     protected $skipValidation = false;
+
+    public function getUserById($id){
+        return $this->find($id);
+    }
 }

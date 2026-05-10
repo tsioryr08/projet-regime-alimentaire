@@ -6,7 +6,7 @@ use CodeIgniter\Router\RouteCollection;
  * @var RouteCollection $routes
  */
 $routes->get('/', function() {
-    return redirect()->to('/utilisateur/login');
+    return redirect()->to('/utilisateur/register');
 });
 
 $routes->group('utilisateur', ['namespace' => 'App\Controllers\user'], function($routes){
@@ -14,8 +14,13 @@ $routes->group('utilisateur', ['namespace' => 'App\Controllers\user'], function(
     $routes->get('login', 'AuthController::login');
     $routes->post('login', 'AuthController::loginPost');
 
+	$routes->get('logout','ProfilController::logout');
+
     $routes->get('register', 'AuthController::register');
     $routes->post('register', 'AuthController::registerPost');
+
+	$routes->get('profil','ProfilController::profil');
+	$routes->get('modifProfil','ProfilController::modif');
 
 });
 
