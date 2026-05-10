@@ -23,6 +23,9 @@ $routes->group('utilisateur', ['namespace' => 'App\Controllers\user'], function(
 	$routes->get('modifProfil','ProfilController::modif');
 	$routes->post('updateProfil','ProfilController::modifProfil');
 
+	$routes->get('saisirCode','WalletController::saisir');
+	$routes->post('traiterCode','WalletController::traiterCode');
+
 });
 
 // Routes IMC

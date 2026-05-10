@@ -50,7 +50,7 @@ class ProfilController extends BaseController
     $model = new \App\Models\UtilisateurModel();
     
     $data = [
-        'id' => $userId,  // ← AJOUTER L'ID ICI ! C'est important
+        'id' => $userId,  
         'nom' => $this->request->getPost('nom'),
         'prenom' => $this->request->getPost('prenom'),
         'email' => $this->request->getPost('email'),
@@ -61,16 +61,13 @@ class ProfilController extends BaseController
         'objectif' => $this->request->getPost('objectif')
     ];
     
-    // Si mot de passe renseigné, le mettre à jour
     $password = $this->request->getPost('password');
     if (!empty($password)) {
         $data['password'] = password_hash($password, PASSWORD_DEFAULT);
     } else {
-        // Retirer 'password' des données si vide
         unset($data['password']);
     }
     
-    // Mise à jour
     if ($model->update($userId, $data)) {
         session()->set([
             'user_nom' => $data['nom'],

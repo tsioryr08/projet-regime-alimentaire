@@ -48,6 +48,57 @@
             padding: 30px;
         }
 
+        /* Message de succès */
+        .success-message {
+            background: #d1fae5;
+            border: 1px solid #10b981;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 25px;
+            color: #065f46;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            animation: slideIn 0.3s ease;
+        }
+
+        .success-message::before {
+            content: "🎉";
+            font-size: 20px;
+        }
+
+        /* Message d'erreur */
+        .error-message {
+            background: #fee2e2;
+            border: 1px solid #ef4444;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 25px;
+            color: #991b1b;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            animation: slideIn 0.3s ease;
+        }
+
+        .error-message::before {
+            content: "❌";
+            font-size: 20px;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateY(-20px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
         .info-section {
             margin-bottom: 25px;
             padding-bottom: 20px;
@@ -80,6 +131,7 @@
             display: flex;
             gap: 15px;
             margin-top: 30px;
+            flex-wrap: wrap;
         }
 
         .btn {
@@ -124,6 +176,16 @@
             background: #dc2626;
         }
 
+        .btn-code {
+            background: #f59e0b;
+            color: white;
+        }
+
+        .btn-code:hover {
+            background: #d97706;
+            transform: translateY(-1px);
+        }
+
         @media (max-width: 600px) {
             .content {
                 padding: 20px;
@@ -137,6 +199,9 @@
             .button-row {
                 flex-direction: column;
             }
+            .btn {
+                text-align: center;
+            }
         }
     </style>
 </head>
@@ -148,6 +213,18 @@
         </div>
 
         <div class="content">
+            <?php if(session()->has('success')): ?>
+                <div class="success-message">
+                    <?= session('success') ?>
+                </div>
+            <?php endif; ?>
+
+            <?php if(session()->has('error')): ?>
+                <div class="error-message">
+                    <?= session('error') ?>
+                </div>
+            <?php endif; ?>
+
             <div class="info-section">
                 <h3>Informations personnelles</h3>
                 <div class="info-row">
@@ -201,7 +278,7 @@
                 <h3>Informations compte</h3>
                 <div class="info-row">
                     <div class="info-label">Solde :</div>
-                    <div class="info-value"><?= number_format($user['solde_portefeuille'], 0, ',', ' ') ?> €</div>
+                    <div class="info-value"><?= number_format($user['solde_portefeuille'], 0, ',', ' ') ?> Ar</div>
                 </div>
                 <div class="info-row">
                     <div class="info-label">Statut :</div>
@@ -222,6 +299,7 @@
             <div class="button-row">
                 <a href="/utilisateur/dashboard" class="btn btn-secondary">Retour</a>
                 <a href="/utilisateur/modifProfil" class="btn btn-primary">Modifier mon profil</a>
+                <a href="/utilisateur/saisirCode" class="btn btn-code">Saisir un code</a>
                 <a href="/utilisateur/logout" class="btn btn-danger">Déconnexion</a>
             </div>
         </div>
