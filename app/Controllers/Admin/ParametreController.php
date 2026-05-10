@@ -10,7 +10,7 @@ class ParametreController extends BaseController
     {
         $parametres = db_connect()->table('parametres')->orderBy('cle', 'ASC')->get()->getResultArray();
 
-        if ($this->request->getMethod() === 'post') {
+        if (strtoupper($this->request->getMethod()) === 'POST') {
             foreach ($this->request->getPost('parametres') ?? [] as $id => $values) {
                 db_connect()->table('parametres')->where('id', $id)->update([
                     'valeur' => $values['valeur'] ?? '',
@@ -25,7 +25,7 @@ class ParametreController extends BaseController
 
     public function create()
     {
-        if ($this->request->getMethod() === 'post') {
+        if (strtoupper($this->request->getMethod()) === 'POST') {
             $data = [
                 'cle' => $this->request->getPost('cle'),
                 'valeur' => $this->request->getPost('valeur'),

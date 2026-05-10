@@ -14,7 +14,7 @@ class RegimeAdminController extends BaseController
 
     public function create()
     {
-        if ($this->request->getMethod() === 'post') {
+        if (strtoupper($this->request->getMethod()) === 'POST') {
             $data = $this->request->getPost([
                 'nom','description','prix_base','duree_jours','variation_poids','sens_variation',
                 'pct_viande','pct_poisson','pct_volaille','categorie_imc'
@@ -29,7 +29,7 @@ class RegimeAdminController extends BaseController
     public function edit($id)
     {
         $db = db_connect();
-        if ($this->request->getMethod() === 'post') {
+        if (strtoupper($this->request->getMethod()) === 'POST') {
             $data = $this->request->getPost([
                 'nom','description','prix_base','duree_jours','variation_poids','sens_variation',
                 'pct_viande','pct_poisson','pct_volaille','categorie_imc'

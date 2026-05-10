@@ -14,7 +14,7 @@ class ActiviteAdminController extends BaseController
 
     public function create()
     {
-        if ($this->request->getMethod() === 'post') {
+        if (strtoupper($this->request->getMethod()) === 'POST') {
             $data = $this->request->getPost([
                 'nom','description','duree_semaines','frequence','calories_par_h','categorie_imc','objectif_cible'
             ]);
@@ -28,7 +28,7 @@ class ActiviteAdminController extends BaseController
     public function edit($id)
     {
         $db = db_connect();
-        if ($this->request->getMethod() === 'post') {
+        if (strtoupper($this->request->getMethod()) === 'POST') {
             $data = $this->request->getPost([
                 'nom','description','duree_semaines','frequence','calories_par_h','categorie_imc','objectif_cible'
             ]);

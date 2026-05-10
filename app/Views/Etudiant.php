@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Liste des Étudiants</title>
+    <link rel="stylesheet" href="">
     <style>
         body { font-family: Arial, sans-serif; margin: 20px; }
         table { border-collapse: collapse; width: 100%; }
@@ -11,6 +12,7 @@
         th { background-color: #4CAF50; color: white; }
         tr:hover { background-color: #f5f5f5; }
     </style>
+  <link rel="stylesheet" href="<?= base_url('css/style.css') ?>">
 </head>
 <body>
     <h1>Liste des Étudiants</h1>

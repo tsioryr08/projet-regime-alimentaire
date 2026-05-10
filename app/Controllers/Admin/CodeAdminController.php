@@ -17,7 +17,7 @@ class CodeAdminController extends BaseController
         $db = db_connect();
         $code = $db->table('codes')->where('id', $id)->get()->getRowArray();
 
-        if ($this->request->getMethod() === 'post') {
+        if (strtoupper($this->request->getMethod()) === 'POST') {
             $db->table('codes')->where('id', $id)->update([
                 'est_valide' => (int) $this->request->getPost('est_valide'),
             ]);

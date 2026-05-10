@@ -8,6 +8,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
+  <link rel="stylesheet" href="<?= base_url('css/style.css') ?>">
   <style>
     :root{
       --bg:#f4f6fb;--sidebar:#111827;--sidebar-2:#0f172a;--panel:#ffffff;--panel-soft:#f8fafc;--text:#0f172a;--muted:#64748b;--border:#e5e7eb;
@@ -51,7 +52,6 @@
     .kpi-icon{width:44px;height:44px;border-radius:14px;display:grid;place-items:center}.kpi-icon svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:2}.bg-blue{background:var(--primary-soft);color:var(--primary)}.bg-green{background:var(--success-soft);color:var(--success)}.bg-amber{background:var(--warning-soft);color:var(--warning)}
     .kpi-delta{margin-top:10px;font-size:13px;display:flex;align-items:center;gap:6px;color:var(--muted)}.kpi-delta.up{color:var(--success)}.kpi-delta.down{color:var(--danger)}
 
-    .dash-grid{display:grid;grid-template-columns:2fr 1fr;gap:18px;margin-bottom:18px}
     .card{background:#fff;border:1px solid var(--border);border-radius:24px;padding:18px;box-shadow:0 10px 35px rgba(15,23,42,.06)}
     .card-header{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:14px}.card-title{font-size:18px;font-weight:800;color:var(--text)}
     .btn-ghost{background:#eef2ff;color:#3730a3}.btn-sm{padding:9px 12px;border-radius:12px;font-size:13px}
@@ -64,17 +64,21 @@
     .progress-track{height:10px;border-radius:999px;background:#e2e8f0;overflow:hidden}.progress-fill{height:100%;border-radius:999px}
 
     .charts-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;margin-bottom:18px}
-    .chart-box{background:#fff;border:1px solid var(--border);border-radius:24px;padding:18px;box-shadow:0 10px 35px rgba(15,23,42,.06);min-height:390px}
-    .chart-box h3{margin:0 0 12px;font-size:17px}.chart-box canvas{width:100% !important;height:300px !important}
+    .chart-box{background:#fff;border:1px solid var(--border);border-radius:24px;padding:18px;box-shadow:0 10px 35px rgba(15,23,42,.06);min-height:390px;display:flex;flex-direction:column;gap:14px}
+    .chart-box h3{margin:0;font-size:17px}.chart-box canvas{width:100% !important;height:300px !important}
+    .chart-table h4{margin:0 0 10px;font-size:14px;color:var(--muted);text-transform:uppercase;letter-spacing:.06em}
+    .chart-table table th,.chart-table table td{padding:10px 8px;font-size:13px}
+    .chart-table{margin-top:auto;padding-top:4px}
 
     .tables-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}.table-card{background:#fff;border:1px solid var(--border);border-radius:24px;padding:18px;box-shadow:0 10px 35px rgba(15,23,42,.06)}
     .table-card.full{grid-column:1/-1}.table-card h2{margin:0 0 8px;font-size:20px}.subtitle{margin:0 0 16px;color:var(--muted)}
     table{width:100%;border-collapse:collapse} th,td{padding:12px 10px;border-bottom:1px solid var(--border);text-align:left;font-size:14px} th{color:#475569;font-size:12px;text-transform:uppercase;letter-spacing:.06em} td{color:#0f172a}
     .badge{padding:6px 10px;border-radius:999px;font-size:12px;font-weight:800;display:inline-block}.badge.green{background:var(--success-soft);color:var(--success)}.badge.blue{background:var(--info-soft);color:var(--info)}
 
-    @media (max-width: 1280px){.sidebar{width:250px}.kpi-grid,.charts-grid,.tables-grid,.dash-grid{grid-template-columns:1fr 1fr}}
-    @media (max-width: 980px){.app{flex-direction:column}.sidebar{width:100%;height:auto;position:relative}.topbar{flex-wrap:wrap}.topbar-search{order:3;max-width:none;width:100%}.kpi-grid,.charts-grid,.tables-grid,.dash-grid{grid-template-columns:1fr}}
+    @media (max-width: 1280px){.sidebar{width:250px}.kpi-grid,.charts-grid,.tables-grid{grid-template-columns:1fr 1fr}}
+    @media (max-width: 980px){.app{flex-direction:column}.sidebar{width:100%;height:auto;position:relative}.topbar{flex-wrap:wrap}.topbar-search{order:3;max-width:none;width:100%}.kpi-grid,.charts-grid,.tables-grid{grid-template-columns:1fr}}
   </style>
+  <link rel="stylesheet" href="<?= base_url('css/style.css') ?>">
 </head>
 <body>
   <?php
@@ -178,79 +182,56 @@
           </div>
         </div>
 
-        <div class="dash-grid">
-          <div class="card">
-            <div class="card-header">
-              <div class="card-title">Utilisateurs par objectif</div>
-              <button class="btn btn-ghost btn-sm" type="button">Exporter</button>
-            </div>
-            <div class="chart-area"><canvas id="chartObjectives"></canvas></div>
-          </div>
-
-          <div class="card">
-            <div class="card-header"><div class="card-title">Activité récente</div><button class="btn btn-ghost btn-sm" type="button">Voir tout</button></div>
-            <div class="activity-list">
-              <div class="activity-item"><div class="activity-dot" style="background:var(--success)"></div><div class="activity-body"><div class="act-title">Base de données importée</div><div class="act-meta">table.sql synchronisé avec succès</div></div></div>
-              <div class="activity-item"><div class="activity-dot" style="background:var(--primary)"></div><div class="activity-body"><div class="act-title">Login administrateur opérationnel</div><div class="act-meta">Accès sécurisé au Back Office</div></div></div>
-              <div class="activity-item"><div class="activity-dot" style="background:var(--warning)"></div><div class="activity-body"><div class="act-title">Suggestions seedées</div><div class="act-meta">Données dashboard injectées</div></div></div>
-              <div class="activity-item"><div class="activity-dot" style="background:var(--danger)"></div><div class="activity-body"><div class="act-title">Contrôle des rôles actif</div><div class="act-meta">adminAuth protège les routes</div></div></div>
-            </div>
-          </div>
-        </div>
-
         <div class="charts-grid">
-          <div class="chart-box"><h3>Régimes populaires</h3><canvas id="chartRegimes"></canvas></div>
-          <div class="chart-box"><h3>Gold vs non-Gold</h3><canvas id="chartGold"></canvas></div>
           <div class="chart-box">
-            <h3>Progression des modules</h3>
-            <div class="progress-bar-wrap"><div class="progress-label"><span>Module Régimes</span><span class="pct">86%</span></div><div class="progress-track"><div class="progress-fill" style="width:86%;background:var(--primary)"></div></div></div>
-            <div class="progress-bar-wrap"><div class="progress-label"><span>Module Activités</span><span class="pct">72%</span></div><div class="progress-track"><div class="progress-fill" style="width:72%;background:var(--success)"></div></div></div>
-            <div class="progress-bar-wrap"><div class="progress-label"><span>Module Codes</span><span class="pct">64%</span></div><div class="progress-track"><div class="progress-fill" style="width:64%;background:var(--warning)"></div></div></div>
-            <div class="progress-bar-wrap"><div class="progress-label"><span>Module Paramètres</span><span class="pct">48%</span></div><div class="progress-track"><div class="progress-fill" style="width:48%;background:var(--danger)"></div></div></div>
-          </div>
-        </div>
-
-        <div class="tables-grid">
-          <div class="table-card">
-            <h2>Tableau croisé : utilisateurs par objectif</h2>
-            <p class="subtitle">Répartition des profils enregistrés dans la base.</p>
-            <table>
-              <thead><tr><th>Objectif</th><th>Total</th></tr></thead>
-              <tbody>
-                <?php foreach (($utilisateursParObjectif ?? []) as $row): ?>
-                  <tr><td><?= esc($row['objectif']) ?></td><td><?= esc($row['total']) ?></td></tr>
-                <?php endforeach; ?>
-              </tbody>
-            </table>
+            <h3>Utilisateurs par objectif</h3>
+            <canvas id="chartObjectives"></canvas>
+            <div class="chart-table">
+              <h4>Tableau croisé</h4>
+              <table>
+                <thead><tr><th>Objectif</th><th>Total</th></tr></thead>
+                <tbody>
+                  <?php foreach (($utilisateursParObjectif ?? []) as $row): ?>
+                    <tr><td><?= esc($row['objectif']) ?></td><td><?= esc($row['total']) ?></td></tr>
+                  <?php endforeach; ?>
+                </tbody>
+              </table>
+            </div>
           </div>
 
-          <div class="table-card">
-            <h2>Tableau croisé : Gold vs non-Gold</h2>
-            <p class="subtitle">Comparaison des utilisateurs premium et standards.</p>
-            <table>
-              <thead><tr><th>Statut</th><th>Total</th></tr></thead>
-              <tbody>
-                <?php foreach (($repartitionGold ?? []) as $row): ?>
-                  <tr>
-                    <td><?= ((int) $row['is_gold'] === 1) ? '<span class="badge green">Gold</span>' : '<span class="badge blue">Non-Gold</span>' ?></td>
-                    <td><?= esc($row['total']) ?></td>
-                  </tr>
-                <?php endforeach; ?>
-              </tbody>
-            </table>
+          <div class="chart-box">
+            <h3>Gold vs non-Gold</h3>
+            <canvas id="chartGold"></canvas>
+            <div class="chart-table">
+              <h4>Tableau croisé</h4>
+              <table>
+                <thead><tr><th>Statut</th><th>Total</th></tr></thead>
+                <tbody>
+                  <?php foreach (($repartitionGold ?? []) as $row): ?>
+                    <tr>
+                      <td><?= ((int) $row['is_gold'] === 1) ? '<span class="badge green">Gold</span>' : '<span class="badge blue">Non-Gold</span>' ?></td>
+                      <td><?= esc($row['total']) ?></td>
+                    </tr>
+                  <?php endforeach; ?>
+                </tbody>
+              </table>
+            </div>
           </div>
 
-          <div class="table-card full">
-            <h2>Tableau croisé : régimes populaires</h2>
-            <p class="subtitle">Les régimes les plus suggérés aux utilisateurs.</p>
-            <table>
-              <thead><tr><th>Régime</th><th>Occurrences</th></tr></thead>
-              <tbody>
-                <?php foreach (($regimesPopulaires ?? []) as $row): ?>
-                  <tr><td><?= esc($row['nom'] ?? 'Sans nom') ?></td><td><?= esc($row['total']) ?></td></tr>
-                <?php endforeach; ?>
-              </tbody>
-            </table>
+          <div class="chart-box">
+            <h3>Régimes populaires</h3>
+            <canvas id="chartRegimes"></canvas>
+            <div class="chart-table">
+              <h4>Tableau croisé</h4>
+              <table>
+                <thead><tr><th>Régime</th><th>Occurrences</th></tr></thead>
+                <tbody>
+                  <?php foreach (($regimesPopulaires ?? []) as $row): ?>
+                    <tr><td><?= esc($row['nom'] ?? 'Sans nom') ?></td><td><?= esc($row['total']) ?></td></tr>
+                  <?php endforeach; ?>
+                </tbody>
+              </table>
+            </div>
           </div>
         </div>
       </div>

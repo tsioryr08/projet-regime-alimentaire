@@ -35,6 +35,7 @@ helper('form');
     .alert:before{content:"";width:10px;height:10px;border-radius:50%;background:var(--c-danger);margin-top:4px;flex:none}
     .login-footer{margin-top:22px;text-align:center;font-size:12px;color:var(--c-muted)}
   </style>
+  <link rel="stylesheet" href="<?= base_url('css/style.css') ?>">
 </head>
 <body>
   <div class="login-shell">
@@ -52,16 +53,14 @@ helper('form');
       <h2>Connexion administrateur</h2>
       <p class="subtitle">Accédez au tableau de bord, aux statistiques et aux modules de gestion.</p>
 
-      <?php if(session()->getFlashdata('error')): ?>
-        <div class="alert"><?= esc(session()->getFlashdata('error')) ?></div>
+      <?php if (session()->getFlashdata('error')) : ?>
+        <div class="alert"><?= session()->getFlashdata('error') ?></div>
       <?php endif; ?>
-
       <form action="<?= site_url('admin/auth/login') ?>" method="post" autocomplete="off">
-        <?= csrf_field() ?>
-
+        <input type="hidden" name="<?= csrf_token() ?>" value="<?= csrf_hash() ?>">
         <div class="field-group">
           <label for="email">Email</label>
-          <input id="email" name="email" type="email" class="form-control" required value="<?= set_value('email') ?>" placeholder="admin@regime-app.mg">
+          <input id="email" name="email" type="email" class="form-control" required value="" placeholder="admin@regime-app.mg">
         </div>
 
         <div class="field-group">
@@ -70,7 +69,7 @@ helper('form');
         </div>
 
         <div class="remember-row">
-          <label><input type="checkbox" name="remember" <?= set_value('remember') ? 'checked' : '' ?>> Se souvenir de moi</label>
+          <label><input type="checkbox" name="remember" > Se souvenir de moi</label>
           <span>Accès sécurisé</span>
         </div>
 
