@@ -1,5 +1,6 @@
 <?php
 
+use App\Controllers\user\ProfilController;
 use CodeIgniter\Router\RouteCollection;
 
 /**
@@ -25,6 +26,9 @@ $routes->group('utilisateur', ['namespace' => 'App\Controllers\user'], function(
 
 	$routes->get('saisirCode','WalletController::saisir');
 	$routes->post('traiterCode','WalletController::traiterCode');
+
+	$routes->get('devenirGold',"ProfilController::devenirGold");
+	$routes->get('payerGold',"ProfilController::payerGold");
 
 });
 

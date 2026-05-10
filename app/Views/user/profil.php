@@ -300,6 +300,7 @@
                 <a href="/utilisateur/dashboard" class="btn btn-secondary">Retour</a>
                 <a href="/utilisateur/modifProfil" class="btn btn-primary">Modifier mon profil</a>
                 <a href="/utilisateur/saisirCode" class="btn btn-code">Saisir un code</a>
+                <a href="/utilisateur/devenirGold" class="btn btn-primary" style="background: #f59e0b;">⭐ Devenir Gold</a>
                 <a href="/utilisateur/logout" class="btn btn-danger">Déconnexion</a>
             </div>
         </div>

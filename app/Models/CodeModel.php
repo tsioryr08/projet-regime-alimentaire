@@ -77,7 +77,6 @@ class CodeModel extends Model
             ];
         }
 
-        // Marquer le code comme utilisé
         $update = $this->update($codeInfo['id'], [
             'est_valide' => 0,
             'utilisateur_id' => $utilisateurId,

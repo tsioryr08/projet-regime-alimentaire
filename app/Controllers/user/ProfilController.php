@@ -80,5 +80,57 @@ class ProfilController extends BaseController
             ->withInput()
             ->with('errors', $model->errors());
     }
+
+    
+}
+public function devenirGold()
+{
+    if (!session()->get('isLoggedIn')) {
+        return redirect()->to('/utilisateur/login')->with('error', 'Veuillez vous connecter');
+    }
+    
+    $userId = session()->get('user_id');
+    $model = new \App\Models\UtilisateurModel();
+    $user = $model->find($userId);
+    
+    if ($user['is_gold'] == 1) {
+        return redirect()->to('/utilisateur/profil')->with('error', 'Vous êtes déjà membre Gold !');
+    }
+    
+    return view('user/devenir_gold', ['solde' => $user['solde_portefeuille']]);
+}
+
+
+
+
+
+
+public function payerGold()
+{
+    if (!session()->get('isLoggedIn')) {
+        return redirect()->to('/utilisateur/login')->with('error', 'Veuillez vous connecter');
+    }
+    
+    $userId = session()->get('user_id');
+    $model = new \App\Models\UtilisateurModel();
+    $user = $model->find($userId);
+    
+    if ($user['solde_portefeuille'] < 10000) {
+        return redirect()->to('/utilisateur/devenirGold')->with('error', 'Solde insuffisant');
+    }
+    
+    if ($user['is_gold'] == 1) {
+        return redirect()->to('/utilisateur/profil')->with('error', 'Vous êtes déjà Gold');
+    }
+    
+    $nouveauSolde = $user['solde_portefeuille'] - 10000;
+    
+    $model->update($userId, [
+        'solde_portefeuille' => $nouveauSolde,
+        'is_gold' => 1,
+        'gold_paid_at' => date('Y-m-d H:i:s')
+    ]);
+    
+    return redirect()->to('/utilisateur/profil')->with('success', 'Félicitations ! Vous êtes maintenant membre Gold ⭐');
 }
 }

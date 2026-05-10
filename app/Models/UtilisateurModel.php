@@ -100,4 +100,14 @@ class UtilisateurModel extends Model
     public function getUserById($id){
         return $this->find($id);
     }
+
+        public function getSolde($id)
+{
+    return $this->select('solde_portefeuille')
+                ->where('id', $id)
+                ->get()
+                ->getRow()
+                ->solde_portefeuille;
+}
+    
 }
