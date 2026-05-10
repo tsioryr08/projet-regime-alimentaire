@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -18,7 +19,11 @@
             --pink-soft: #fff3f7;
             --ink: #203026;
         }
-        * { box-sizing: border-box; }
+
+        * {
+            box-sizing: border-box;
+        }
+
         body {
             margin: 0;
             min-height: 100vh;
@@ -29,42 +34,51 @@
                 linear-gradient(180deg, #fbfcfb 0%, #fff7fa 100%);
             color: var(--ink);
         }
+
         .topbar {
             position: sticky;
             top: 0;
             z-index: 20;
             backdrop-filter: blur(16px);
-            background: rgba(255,255,255,.72);
+            background: rgba(255, 255, 255, .72);
             border-bottom: 1px solid rgba(111, 146, 123, .14);
         }
+
         .brand {
             font-weight: 800;
             letter-spacing: .3px;
             color: var(--ink) !important;
         }
+
         .brand span {
             color: var(--sage-dark);
         }
+
         .nav-link {
             color: #4b5a51 !important;
             font-weight: 600;
         }
+
         .nav-link:hover {
             color: var(--sage-dark) !important;
         }
+
         .hero {
             padding: 56px 0 28px;
         }
+
         .hero-card {
-            background: rgba(255,255,255,.82);
+            background: rgba(255, 255, 255, .82);
             border: 1px solid rgba(111, 146, 123, .15);
             border-radius: 28px;
             box-shadow: 0 24px 50px rgba(33, 50, 39, .08);
             overflow: hidden;
         }
+
         .hero-main {
             padding: 34px;
         }
+
         .badge-soft {
             display: inline-flex;
             align-items: center;
@@ -75,26 +89,38 @@
             font-weight: 700;
             margin-bottom: 18px;
         }
-        .badge-sage { background: rgba(169, 205, 177, .35); color: #355642; }
-        .badge-pink { background: rgba(244, 198, 214, .40); color: #7b4e63; }
+
+        .badge-sage {
+            background: rgba(169, 205, 177, .35);
+            color: #355642;
+        }
+
+        .badge-pink {
+            background: rgba(244, 198, 214, .40);
+            color: #7b4e63;
+        }
+
         .hero h1 {
             font-size: clamp(2rem, 4vw, 3.5rem);
             line-height: 1.1;
             font-weight: 800;
             margin-bottom: 16px;
         }
+
         .hero p.lead {
             color: #5f6d64;
             font-size: 1.05rem;
             line-height: 1.8;
             max-width: 680px;
         }
+
         .cta-row {
             display: flex;
             flex-wrap: wrap;
             gap: 12px;
             margin-top: 24px;
         }
+
         .btn-soft {
             border: none;
             border-radius: 14px;
@@ -102,43 +128,57 @@
             font-weight: 700;
             text-decoration: none;
         }
+
         .btn-sage {
             background: linear-gradient(135deg, var(--sage) 0%, #8cb89a 100%);
             color: #234031;
         }
-        .btn-sage:hover { color: #1e3529; }
+
+        .btn-sage:hover {
+            color: #1e3529;
+        }
+
         .btn-pink {
             background: linear-gradient(135deg, var(--pink) 0%, #f0b7cb 100%);
             color: #713f56;
         }
-        .btn-pink:hover { color: #603548; }
+
+        .btn-pink:hover {
+            color: #603548;
+        }
+
         .section-title {
             font-weight: 800;
             margin: 34px 0 18px;
         }
+
         .feature-grid {
             display: grid;
             grid-template-columns: repeat(4, minmax(0, 1fr));
             gap: 16px;
         }
+
         .feature-card {
-            background: rgba(255,255,255,.9);
+            background: rgba(255, 255, 255, .9);
             border: 1px solid rgba(111, 146, 123, .14);
             border-radius: 22px;
             padding: 20px;
             min-height: 180px;
             box-shadow: 0 12px 28px rgba(33, 50, 39, .06);
         }
+
         .feature-card h3 {
             font-size: 1.05rem;
             font-weight: 800;
             margin-bottom: 10px;
         }
+
         .feature-card p {
             margin: 0;
             color: #64756d;
             line-height: 1.65;
         }
+
         .motivations {
             display: grid;
             grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -146,40 +186,130 @@
             margin-top: 18px;
             margin-bottom: 48px;
         }
+
         .motivation-card {
-            background: linear-gradient(180deg, rgba(255,255,255,.88), rgba(255,255,255,.95));
+            background: linear-gradient(180deg, rgba(255, 255, 255, .88), rgba(255, 255, 255, .95));
             border-radius: 22px;
             padding: 22px;
             border: 1px solid rgba(244, 198, 214, .28);
             box-shadow: 0 12px 28px rgba(33, 50, 39, .05);
         }
+
         .motivation-card strong {
             display: block;
             margin-bottom: 10px;
             color: #6e4055;
         }
+
         .motivation-card p {
             margin: 0;
             color: #5f6d64;
             line-height: 1.7;
         }
+
         .welcome-panel {
             background: linear-gradient(135deg, rgba(169, 205, 177, .22) 0%, rgba(244, 198, 214, .22) 100%);
             border: 1px solid rgba(111, 146, 123, .12);
             border-radius: 24px;
             padding: 22px;
         }
-        .welcome-panel h2 { font-weight: 800; font-size: 1.4rem; }
-        .welcome-panel p { margin: 0; color: #5d6b63; line-height: 1.7; }
-        @media (max-width: 992px) {
-            .feature-grid, .motivations { grid-template-columns: 1fr 1fr; }
+
+        .footer {
+            background: rgba(255, 255, 255, .78);
+            backdrop-filter: blur(12px);
+            border-top: 1px solid rgba(111, 146, 123, .14);
+            padding: 40px 0 20px;
         }
+
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            gap: 30px;
+            flex-wrap: wrap;
+            margin-bottom: 24px;
+        }
+
+        .footer-brand {
+            font-weight: 800;
+            margin-bottom: 10px;
+            color: var(--ink);
+        }
+
+        .footer-brand span {
+            color: var(--sage-dark);
+        }
+
+        .footer-text {
+            color: #5f6d64;
+            max-width: 420px;
+            line-height: 1.7;
+            margin: 0;
+        }
+
+        .footer-links {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .footer-links a {
+            text-decoration: none;
+            color: #4b5a51;
+            font-weight: 600;
+            transition: .2s ease;
+        }
+
+        .footer-links a:hover {
+            color: var(--sage-dark);
+            transform: translateX(3px);
+        }
+
+        .footer-bottom {
+            border-top: 1px solid rgba(111, 146, 123, .12);
+            padding-top: 18px;
+            text-align: center;
+            color: #6b7a72;
+            font-size: .95rem;
+        }
+
         @media (max-width: 768px) {
-            .hero-main { padding: 24px; }
-            .feature-grid, .motivations { grid-template-columns: 1fr; }
+            .footer-content {
+                flex-direction: column;
+            }
+        }
+
+        .welcome-panel h2 {
+            font-weight: 800;
+            font-size: 1.4rem;
+        }
+
+        .welcome-panel p {
+            margin: 0;
+            color: #5d6b63;
+            line-height: 1.7;
+        }
+
+        @media (max-width: 992px) {
+
+            .feature-grid,
+            .motivations {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .hero-main {
+                padding: 24px;
+            }
+
+            .feature-grid,
+            .motivations {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
 </head>
+
 <body>
     <nav class="navbar navbar-expand-lg topbar">
         <div class="container py-2">
@@ -190,7 +320,7 @@
             <div class="collapse navbar-collapse" id="mainNav">
                 <ul class="navbar-nav ms-auto align-items-lg-center gap-lg-2">
                     <li class="nav-item"><a class="nav-link" href="<?= site_url('utilisateur/profil') ?>">Profil</a></li>
-                    <li class="nav-item"><a class="nav-link" href="<?= site_url('utilisateur/register') ?>">Créer un compte</a></li>
+                    <li class="nav-item"><a class="nav-link" href="<?= site_url('utilisateur/register') ?>">Porte-feuille</a></li>
                     <li class="nav-item"><a class="nav-link" href="<?= site_url('imc') ?>">IMC</a></li>
                     <li class="nav-item"><a class="nav-link" href="<?= site_url('regime/suggestion') ?>">Suggestion</a></li>
                 </ul>
@@ -264,7 +394,31 @@
             </p>
         </section>
     </main>
+    <footer class="footer mt-5">
+        <div class="container">
+            <div class="footer-content">
+                <div>
+                    <h5 class="footer-brand">Regime <span>Pro</span></h5>
+                    <p class="footer-text">
+                        Votre compagnon bien-être pour suivre votre progression,
+                        améliorer vos habitudes et atteindre vos objectifs santé.
+                    </p>
+                </div>
+
+                <div class="footer-links">
+                    <a href="<?= site_url('utilisateur/profil') ?>">Profil</a>
+                    <a href="<?= site_url('imc') ?>">IMC</a>
+                    <a href="<?= site_url('regime/suggestion') ?>">Suggestions</a>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                © <?= date('Y') ?> Regime Pro — Tous droits réservés.
+            </div>
+        </div>
+    </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
+
 </html>
