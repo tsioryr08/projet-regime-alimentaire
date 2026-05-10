@@ -1,6 +1,6 @@
 -- ============================================================
 --  BASE DE DONNÉES : Application Régime Alimentaire
---  Projet S4 — Tsiory, Nekena, Olivier
+--  Projet S4 — Tsiory, Njary, Olivier
 --  Généré le : 06 mai 2026
 -- ============================================================
 
@@ -12,7 +12,7 @@ USE regime_db;
 
 -- ============================================================
 --  TABLE : utilisateurs
---  Gérée par : Nekena
+--  Gérée par : Njary
 -- ============================================================
 CREATE TABLE utilisateurs (
     id                  INT AUTO_INCREMENT PRIMARY KEY,
@@ -101,7 +101,7 @@ CREATE TABLE suggestions (
 
 -- ============================================================
 --  TABLE : codes
---  Gérée par : Nekena (front) + Olivier (validation admin)
+--  Gérée par : Njary (front) + Olivier (validation admin)
 -- ============================================================
 CREATE TABLE codes (
     id               INT AUTO_INCREMENT PRIMARY KEY,
@@ -154,7 +154,7 @@ INSERT INTO utilisateurs (nom, prenom, email, password, genre, date_naissance, t
 -- ─── 5 Régimes
 INSERT INTO regimes (nom, description, prix_base, duree_jours, variation_poids, sens_variation, pct_viande, pct_poisson, pct_volaille, categorie_imc) VALUES
 ('Régime Méditerranéen',
- 'Riche en légumes, fruits, céréales complètes et huile d''olive. Idéal pour perdre du poids progressivement.',
+ 'Riche en légumes, fruits, céréales complètes et huile d\'olive. Idéal pour perdre du poids progressivement.',
  45000.00, 30, 3.50, 'perte', 20, 40, 40, 'surpoids'),
 
 ('Régime Hyperprotéiné',
@@ -213,25 +213,12 @@ INSERT INTO codes (code, montant) VALUES
 ('BOOST-IMC',      6500.00),
 ('VIP-REGIME',    15000.00);
 
--- ─── Suggestions initiales pour les statistiques du dashboard
-INSERT INTO suggestions (utilisateur_id, regime_id, activite_id, prix_final, remise_gold, exported_pdf) VALUES
-(1, 1, 1, 45000.00, 0, 0),
-(1, 4, 4, 35000.00, 0, 0),
-(2, 2, 3, 55000.00, 0, 1),
-(3, 1, 2, 38250.00, 1, 1),
-(3, 3, 2, 60000.00, 1, 0),
-(4, 5, 3, 50000.00, 0, 0),
-(5, 4, 4, 35000.00, 0, 1),
-(5, 2, 3, 55000.00, 0, 0),
-(2, 5, 5, 50000.00, 0, 0),
-(4, 4, 1, 35000.00, 0, 0);
-
 -- ─── Paramètres système
 INSERT INTO parametres (cle, valeur, description) VALUES
-('prix_gold',       '50000',  'Prix de l''option Gold en Ariary'),
+('prix_gold',       '50000',  'Prix de l\'option Gold en Ariary'),
 ('remise_gold',     '15',     'Pourcentage de remise pour les membres Gold'),
-('duree_min_jours', '30',     'Durée minimale d''un régime en jours'),
-('duree_max_jours', '90',     'Durée maximale d''un régime en jours'),
+('duree_min_jours', '30',     'Durée minimale d\'un régime en jours'),
+('duree_max_jours', '90',     'Durée maximale d\'un régime en jours'),
 ('imc_maigreur_max','18.5',   'Valeur max IMC pour catégorie maigreur'),
 ('imc_normal_max',  '24.9',   'Valeur max IMC pour catégorie normale'),
 ('imc_surpoids_max','29.9',   'Valeur max IMC pour catégorie surpoids');
@@ -250,3 +237,8 @@ INSERT INTO admins (nom, email, password) VALUES
 --  25.0 à 29.9      → Surpoids
 --  >= 30.0          → Obésité
 -- ============================================================
+
+-- pour update la valeur de la remise
+--UPDATE parametres 
+--SET valeur = '30' 
+--WHERE cle = 'remise_gold';
