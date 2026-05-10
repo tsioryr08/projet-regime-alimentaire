@@ -17,6 +17,10 @@
       'regimesPopulaires' => $regimesPopulaires ?? [],
       'repartitionGold' => $repartitionGold ?? [],
     ];
+    $maxRegimeTotal = 0;
+    foreach (($regimesPopulaires ?? []) as $row) {
+      $maxRegimeTotal = max($maxRegimeTotal, (int) ($row['total'] ?? 0));
+    }
   ?>
   <div class="app">
     <aside class="sidebar">
@@ -150,15 +154,37 @@
 
           <div class="chart-box">
             <h3>Régimes populaires</h3>
-            <canvas id="chartRegimes"></canvas>
+            <div class="popular-bars" aria-label="Graphe des régimes populaires">
+              <?php if (!empty($regimesPopulaires)): ?>
+                <?php foreach ($regimesPopulaires as $row): ?>
+                  <?php
+                    $total = (int) ($row['total'] ?? 0);
+                    $width = $maxRegimeTotal > 0 ? max(6, ($total / $maxRegimeTotal) * 100) : 6;
+                  ?>
+                  <div class="popular-bar-row">
+                    <div class="popular-bar-label"><?= esc($row['nom'] ?? 'Sans nom') ?></div>
+                    <div class="popular-bar-track">
+                      <div class="popular-bar-fill" style="width: <?= esc((string) $width) ?>%;"></div>
+                    </div>
+                    <div class="popular-bar-value"><?= esc($total) ?></div>
+                  </div>
+                <?php endforeach; ?>
+              <?php else: ?>
+                <div class="popular-empty">Aucun régime enregistré.</div>
+              <?php endif; ?>
+            </div>
             <div class="chart-table">
               <h4>Tableau croisé</h4>
               <table>
                 <thead><tr><th>Régime</th><th>Occurrences</th></tr></thead>
                 <tbody>
-                  <?php foreach (($regimesPopulaires ?? []) as $row): ?>
+                  <?php if (!empty($regimesPopulaires)): ?>
+                  <?php foreach ($regimesPopulaires as $row): ?>
                     <tr><td><?= esc($row['nom'] ?? 'Sans nom') ?></td><td><?= esc($row['total']) ?></td></tr>
                   <?php endforeach; ?>
+                  <?php else: ?>
+                    <tr><td colspan="2">Aucun régime enregistré.</td></tr>
+                  <?php endif; ?>
                 </tbody>
               </table>
             </div>

@@ -478,6 +478,58 @@ input[type="checkbox"] {
   height: 240px !important;
 }
 
+.popular-bars {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  min-height: 240px;
+  justify-content: center;
+}
+
+.popular-bar-row {
+  display: grid;
+  grid-template-columns: minmax(120px, 1.2fr) minmax(130px, 2fr) 34px;
+  gap: 10px;
+  align-items: center;
+}
+
+.popular-bar-label {
+  color: var(--c-text);
+  font-size: 12px;
+  font-weight: 700;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.popular-bar-track {
+  height: 16px;
+  background: var(--sage-soft);
+  border-radius: 99px;
+  overflow: hidden;
+  border: 1px solid rgba(111,146,123,.12);
+}
+
+.popular-bar-fill {
+  height: 100%;
+  border-radius: 99px;
+  background: linear-gradient(135deg, var(--sage), var(--pink));
+  min-width: 8px;
+}
+
+.popular-bar-value {
+  color: var(--pink-dark);
+  font-size: 13px;
+  font-weight: 800;
+  text-align: right;
+}
+
+.popular-empty {
+  color: var(--c-muted);
+  text-align: center;
+  font-weight: 600;
+}
+
 .chart-table {
   margin-top: auto;
   padding-top: 4px;

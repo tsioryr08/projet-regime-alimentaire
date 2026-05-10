@@ -67,7 +67,7 @@
 
   const regimeCanvas = document.getElementById('chartRegimes');
   if (regimeCanvas && window.Chart) {
-    const hasRegimes = regimeLabels.length && regimeValues.reduce((a,b)=>a+b,0) > 0;
+    const hasRegimes = regimeLabels.length > 0;
     new Chart(regimeCanvas, {
       type: 'bar',
       data: {

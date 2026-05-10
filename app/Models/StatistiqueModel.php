@@ -18,11 +18,12 @@ class StatistiqueModel extends Model
 
     public function regimesPopulaires(): array
     {
-        return $this->db->table('suggestions s')
+        return $this->db->table('regimes r')
             ->select('r.nom, COUNT(s.id) AS total')
-            ->join('regimes r', 'r.id = s.regime_id', 'left')
+            ->join('suggestions s', 's.regime_id = r.id', 'left')
             ->groupBy('r.id, r.nom')
             ->orderBy('total', 'DESC')
+            ->orderBy('r.nom', 'ASC')
             ->get()
             ->getResultArray();
     }
