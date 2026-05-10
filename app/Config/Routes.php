@@ -21,6 +21,7 @@ $routes->group('utilisateur', ['namespace' => 'App\Controllers\user'], function(
 
 	$routes->get('profil','ProfilController::profil');
 	$routes->get('modifProfil','ProfilController::modif');
+	$routes->post('updateProfil','ProfilController::modifProfil');
 
 });
 

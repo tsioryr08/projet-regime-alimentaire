@@ -42,11 +42,13 @@ class UtilisateurModel extends Model
 
     protected $validationRules = [
 
+        'id' => 'permit_empty|is_natural_no_zero',
+
         'nom' => 'required|min_length[2]|max_length[100]',
 
         'prenom' => 'required|min_length[2]|max_length[100]',
 
-        'email' => 'required|valid_email|is_unique[utilisateurs.email]',
+        'email' => 'required|valid_email|is_unique[utilisateurs.email,id,{id}]',
 
         'password' => 'required|min_length[6]',
 
