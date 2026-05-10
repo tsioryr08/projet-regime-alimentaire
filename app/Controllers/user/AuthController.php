@@ -43,6 +43,7 @@ class AuthController extends BaseController{
             'user_id' => $user['id'],
             'user_nom' => $user['nom'],
             'user_email' => $user['email'],
+            'is_gold' => $user['is_gold'],
             'isLoggedIn' => true
         ]);
         
@@ -101,6 +102,8 @@ class AuthController extends BaseController{
         'user_nom' => $data['nom'],
 
         'user_email' => $data['email'],
+
+        'is_gold' => 0,                          
 
         'isLoggedIn' => true
     ]);

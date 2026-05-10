@@ -130,6 +130,10 @@ public function payerGold()
         'is_gold' => 1,
         'gold_paid_at' => date('Y-m-d H:i:s')
     ]);
+
+    session()->set([
+        'is_gold' => 1
+    ]);
     
     return redirect()->to('/utilisateur/profil')->with('success', 'Félicitations ! Vous êtes maintenant membre Gold ⭐');
 }
