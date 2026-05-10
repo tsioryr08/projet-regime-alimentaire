@@ -47,7 +47,7 @@ class AuthController extends BaseController{
             'isLoggedIn' => true
         ]);
         
-        return redirect()->to('/utilisateur/profil');
+        return redirect()->to('/utilisateur/accueil');
     } else {
         return redirect()->back()
             ->withInput()
@@ -103,12 +103,12 @@ class AuthController extends BaseController{
 
         'user_email' => $data['email'],
 
-        'is_gold' => 0,                          
+        'is_gold' => 0,
 
         'isLoggedIn' => true
     ]);
 
-    return redirect()->to('/utilisateur/profil');
+    return redirect()->to('/utilisateur/accueil');
 }
 
 }

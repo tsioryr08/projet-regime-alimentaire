@@ -65,40 +65,32 @@ document.addEventListener('DOMContentLoaded', function() {
 
     //affichage resultat
     function afficherResultat(data) {
-        const couleurMap = {
-            'info': 'primary',
-            'success': 'success',
-            'warning': 'warning',
-            'danger': 'danger'
-        };
-
-        const couleur = couleurMap[data.couleur] || 'secondary';
         const emoji = getEmojiCategorie(data.code_categorie);
 
         let html = `
-            <div class="card border-${couleur}">
-                <div class="card-header bg-${couleur} text-white">
+            <div class="imc-result-card">
+                <div class="imc-result-header">
                     <h5 class="mb-0">${emoji} Résultat IMC</h5>
                 </div>
-                <div class="card-body">
+                <div class="imc-result-body">
                     <div class="row">
                         <div class="col-md-6">
                             <p><strong>Poids :</strong> ${data.poids} kg</p>
                             <p><strong>Taille :</strong> ${data.taille} cm</p>
                         </div>
                         <div class="col-md-6">
-                            <p><strong>IMC :</strong> <span class="badge bg-${couleur} fs-6">${data.imc}</span></p>
-                            <p><strong>Catégorie :</strong> <span class="badge bg-${couleur}">${data.categorie}</span></p>
+                            <p><strong>IMC :</strong> <span class="imc-badge-main">${data.imc}</span></p>
+                            <p><strong>Catégorie :</strong> <span class="imc-badge-cat">${data.categorie}</span></p>
                         </div>
                     </div>
                     <div class="mt-3">
-                        <p class="text-muted">${data.description}</p>
+                        <p class="imc-result-description">${data.description}</p>
                     </div>
-                    <div class="mt-3 d-flex gap-2 flex-wrap">
-                        <button class="btn btn-${couleur}" onclick="exporterPDF('${data.imc}', '${data.poids}', '${data.taille}', '${data.categorie}')">
+                    <div class="mt-3 d-flex gap-2 flex-wrap result-actions">
+                        <button class="btn btn-imc-main" onclick="exporterPDF('${data.imc}', '${data.poids}', '${data.taille}', '${data.categorie}')">
                             Exporter en PDF
                         </button>
-                        <button class="btn btn-outline-${couleur}" onclick="window.location.href='/regime/suggestion'">
+                        <button class="btn btn-imc-secondary" onclick="window.location.href='/regime/suggestion'">
                             Voir suggestions
                         </button>
                     </div>
@@ -128,7 +120,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const imc = data.imc;
         let position = 0;
 
-        // Calculer la position: 0-18.5 = 0-25%, 18.5-25 = 25-50%, 25-30 = 50-75%, 30+ = 75-100%
+        // fomba ficalculena anle barre
         if (imc < 18.5) {
             position = (imc / 18.5) * 25;
         } else if (imc < 25) {
@@ -140,24 +132,24 @@ document.addEventListener('DOMContentLoaded', function() {
         }
 
         let progressHtml = `
-            <div class="mt-4">
+            <div class="mt-4 imc-progress-wrap">
                 <label class="form-label fw-bold">Indice IMC</label>
-                <div class="progress" style="height: 30px;">
-                    <div class="progress-bar bg-info" style="width: 25%; display: flex; align-items: center; justify-content: center; font-size: 12px;">
+                <div class="progress imc-progress" style="height: 30px;">
+                    <div class="progress-bar imc-segment-1" style="width: 25%; display: flex; align-items: center; justify-content: center; font-size: 12px;">
                         Maigreur <br> &lt; 18.5
                     </div>
-                    <div class="progress-bar bg-success" style="width: 25%; display: flex; align-items: center; justify-content: center; font-size: 12px;">
+                    <div class="progress-bar imc-segment-2" style="width: 25%; display: flex; align-items: center; justify-content: center; font-size: 12px;">
                         Normal <br> 18.5-25
                     </div>
-                    <div class="progress-bar bg-warning" style="width: 25%; display: flex; align-items: center; justify-content: center; font-size: 12px;">
+                    <div class="progress-bar imc-segment-3" style="width: 25%; display: flex; align-items: center; justify-content: center; font-size: 12px;">
                         Surpoids <br> 25-30
                     </div>
-                    <div class="progress-bar bg-danger" style="width: 25%; display: flex; align-items: center; justify-content: center; font-size: 12px;">
+                    <div class="progress-bar imc-segment-4" style="width: 25%; display: flex; align-items: center; justify-content: center; font-size: 12px;">
                         Obésité <br> &gt; 30
                     </div>
                 </div>
                 <div style="position: relative; margin-top: -8px;">
-                    <div style="position: absolute; left: ${position}%; transform: translateX(-50%); color: red; font-weight: bold; font-size: 20px;">▼</div>
+                    <div style="position: absolute; left: ${position}%; transform: translateX(-50%); color: #7b4e63; font-weight: bold; font-size: 20px;">▼</div>
                 </div>
                 <small class="form-text text-muted d-block mt-2">Votre IMC: ${data.imc}</small>
             </div>

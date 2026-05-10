@@ -16,33 +16,39 @@
 }
 
 body {
-    background: #f5f6f8;
+    background:
+        radial-gradient(circle at top left, rgba(169, 205, 177, 0.42) 0%, rgba(169, 205, 177, 0) 38%),
+        radial-gradient(circle at bottom right, rgba(244, 198, 214, 0.42) 0%, rgba(244, 198, 214, 0) 40%),
+        linear-gradient(135deg, #fbfcfb 0%, #fff7fa 100%);
     min-height: 100vh;
     padding: 30px;
     display: flex;
     justify-content: center;
-    color: #111827;
+    color: #203026;
 }
 
 .container {
     width: 100%;
     max-width: 820px;
-    background: white;
-    border-radius: 14px;
-    box-shadow: 0 8px 20px rgba(0,0,0,0.06);
+    background: rgba(255, 255, 255, 0.94);
+    border-radius: 22px;
+    box-shadow: 0 22px 50px rgba(119, 96, 111, 0.14);
     overflow: hidden;
+    border: 1px solid rgba(163, 185, 169, 0.22);
 }
 
 /* header */
 .header {
-    padding: 25px;
-    border-bottom: 1px solid #eee;
+    padding: 28px 25px;
+    border-bottom: 1px solid rgba(163, 185, 169, 0.18);
     text-align: center;
+    background: linear-gradient(135deg, rgba(169, 205, 177, 0.18) 0%, rgba(244, 198, 214, 0.18) 100%);
 }
 
 .header h1 {
-    font-size: 22px;
-    font-weight: 700;
+    font-size: 24px;
+    font-weight: 800;
+    color: #2f4f3f;
 }
 
 .header p {
@@ -59,35 +65,37 @@ body {
 /* messages */
 .success-message, .error-message {
     padding: 12px;
-    border-radius: 8px;
+    border-radius: 14px;
     font-size: 13px;
     margin-bottom: 18px;
 }
 
 .success-message {
-    background: #ecfdf5;
-    border: 1px solid #a7f3d0;
-    color: #065f46;
+    background: linear-gradient(135deg, rgba(169, 205, 177, 0.26) 0%, rgba(235, 247, 238, 0.95) 100%);
+    border: 1px solid rgba(111, 146, 123, 0.22);
+    color: #2f5a43;
 }
 
 .error-message {
-    background: #fef2f2;
-    border: 1px solid #fecaca;
-    color: #991b1b;
+    background: linear-gradient(135deg, rgba(244, 198, 214, 0.28) 0%, rgba(255, 241, 245, 0.96) 100%);
+    border: 1px solid rgba(201, 132, 161, 0.22);
+    color: #8b4c63;
 }
 
 /* cards */
 .card {
-    border: 1px solid #eee;
-    border-radius: 12px;
+    border: 1px solid rgba(163, 185, 169, 0.18);
+    border-radius: 18px;
     padding: 18px;
     margin-bottom: 15px;
+    background: linear-gradient(180deg, rgba(255,255,255,0.96) 0%, rgba(250, 252, 250, 0.98) 100%);
+    box-shadow: 0 10px 28px rgba(33, 50, 39, 0.05);
 }
 
 .card h3 {
     font-size: 14px;
     margin-bottom: 12px;
-    color: #111827;
+    color: #355a45;
 }
 
 /* rows */
@@ -99,17 +107,17 @@ body {
 }
 
 .label {
-    color: #6b7280;
+    color: #5f6d64;
 }
 
 .value {
-    color: #111827;
+    color: #203026;
     font-weight: 500;
 }
 
 /* gold badge */
 .gold {
-    color: #b45309;
+    color: #8d6a00;
     font-weight: 700;
 }
 
@@ -132,39 +140,41 @@ body {
 }
 
 .btn-primary {
-    background: #111827;
+    background: linear-gradient(135deg, #a9cdb1 0%, #89b69e 100%);
     color: white;
+    color: #234031;
 }
 
 .btn-primary:hover {
-    background: #000;
+    background: linear-gradient(135deg, #9fc8aa 0%, #7ead95 100%);
 }
 
 .btn-secondary {
-    background: #f3f4f6;
-    color: #111827;
+    background: linear-gradient(135deg, #f6d7e3 0%, #efc2d3 100%);
+    color: #6e4055;
 }
 
 .btn-secondary:hover {
-    background: #e5e7eb;
+    background: linear-gradient(135deg, #f3cfdc 0%, #ebb7cc 100%);
 }
 
 .btn-danger {
-    background: #ef4444;
+    background: linear-gradient(135deg, #f4c6d6 0%, #e9adc2 100%);
     color: white;
+    color: #6f3f57;
 }
 
 .btn-danger:hover {
-    background: #dc2626;
+    background: linear-gradient(135deg, #f1bfd0 0%, #e49eb7 100%);
 }
 
 .btn-gold {
-    background: #f59e0b;
-    color: white;
+    background: linear-gradient(135deg, #efe0c1 0%, #e3c98f 100%);
+    color: #6f5b2f;
 }
 
 .btn-gold:hover {
-    background: #d97706;
+    background: linear-gradient(135deg, #e9d7b2 0%, #dcc079 100%);
 }
 
 @media (max-width: 600px) {
@@ -234,7 +244,7 @@ body {
 
             <div class="row">
                 <span class="label">Taille</span>
-                <span class="value"><?= esc($user['taille']) ?> m</span>
+                <span class="value"><?= esc($user['taille']) ?> cm</span>
             </div>
 
             <div class="row">

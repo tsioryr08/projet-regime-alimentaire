@@ -6,34 +6,35 @@ use CodeIgniter\Router\RouteCollection;
 /**
  * @var RouteCollection $routes
  */
-$routes->get('/', function() {
-    return redirect()->to('/utilisateur/register');
-});
+$routes->get('/', 'Home::index');
 
 $routes->group('utilisateur', ['namespace' => 'App\Controllers\user'], function($routes){
 
-	//a faire : asina resaka filtre amin'zay tsy afaka modifier tout ze te himodif
-	//login et logout
+    //a faire : asina resaka filtre amin'zay tsy afaka modifier tout ze te himodif
+    //login et logout
     $routes->get('login', 'AuthController::login');
     $routes->post('login', 'AuthController::loginPost');
-	$routes->get('logout','ProfilController::logout');
+    $routes->get('logout', 'ProfilController::logout');
 
-	//creation compte
+    //creation compte
     $routes->get('register', 'AuthController::register');
     $routes->post('register', 'AuthController::registerPost');
 
-	//resaka profil
-	$routes->get('profil','ProfilController::profil');
-	$routes->get('modifProfil','ProfilController::modif');
-	$routes->post('updateProfil','ProfilController::modifProfil');
+    //accueil utilisateur apres connexion/inscription
+    $routes->get('accueil', 'ProfilController::accueil');
 
-	//resaka code
-	$routes->get('saisirCode','WalletController::saisir');
-	$routes->post('traiterCode','WalletController::traiterCode');
+    //resaka profil
+    $routes->get('profil', 'ProfilController::profil');
+    $routes->get('modifProfil', 'ProfilController::modif');
+    $routes->post('updateProfil', 'ProfilController::modifProfil');
 
-	//resaka gold
-	$routes->get('devenirGold',"ProfilController::devenirGold");
-	$routes->get('payerGold',"ProfilController::payerGold");
+    //resaka code
+    $routes->get('saisirCode', 'WalletController::saisir');
+    $routes->post('traiterCode', 'WalletController::traiterCode');
+
+    //resaka gold
+    $routes->get('devenirGold', 'ProfilController::devenirGold');
+    $routes->get('payerGold', 'ProfilController::payerGold');
 
 });
 
@@ -70,7 +71,7 @@ $routes->group('admin', ['namespace' => 'App\Controllers\Admin'], function($rout
 });
 
 
-// Admin home (redirect based on auth status)
+// Admin home placeholder (backend reserved)
 $routes->get('admin', 'Admin\Index::home');
 $routes->get('admin/', 'Admin\Index::home');
 

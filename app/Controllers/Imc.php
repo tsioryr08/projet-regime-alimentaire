@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use App\Models\ImcModel;
+use App\Models\UtilisateurModel;
 
 class Imc extends BaseController
 {
@@ -13,9 +14,7 @@ class Imc extends BaseController
         $this->imcModel = new ImcModel();
     }
 
-    /**
-     * Convertit une chaîne UTF-8 en encodage compatible avec les fontes natives FPDF.
-     */
+   //convertit le texte pour etre compatible avec fpdf 
     protected function pdfText(string $text): string
     {
         $encoded = @iconv('UTF-8', 'windows-1252//TRANSLIT', $text);
@@ -30,7 +29,22 @@ class Imc extends BaseController
 //affichage du formulaire de calcul IMC
     public function index()
     {
-        return view('imc/calcul');
+        $data = [
+            'poids_prefill' => '',
+            'taille_prefill' => '',
+        ];
+
+        if (session()->get('isLoggedIn') && session()->get('user_id')) {
+            $utilisateurModel = new UtilisateurModel();
+            $user = $utilisateurModel->find(session()->get('user_id'));
+
+            if ($user) {
+                $data['poids_prefill'] = isset($user['poids']) ? number_format((float) $user['poids'], 2, '.', '') : '';
+                $data['taille_prefill'] = isset($user['taille']) ? number_format((float) $user['taille'], 2, '.', '') : '';
+            }
+        }
+
+        return view('imc/calcul', $data);
     }
 
  //calcul imc via ajax

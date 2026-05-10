@@ -16,36 +16,75 @@ if (!isset($remiseGold)) {
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
   <style>
     :root{
-      --bg:#f4f6fb; --card:#ffffff; --muted:#6b7280; --accent:#4f46e5; --accent-2:#7c3aed; --success:#10b981; --glass: rgba(255,255,255,0.6);
+      --bg:#f8faf8; --card:#ffffff; --muted:#6b7280; --accent:#5f8f74; --accent-2:#c78ca7; --success:#10b981; --glass: rgba(255,255,255,0.72);
     }
     html,body{height:100%}
     body{
-      background: linear-gradient(180deg,#eef2ff 0,#f8fafc 40%,var(--bg) 100%);
+      background:
+        radial-gradient(circle at top left, rgba(169, 205, 177, 0.35) 0%, rgba(169, 205, 177, 0) 36%),
+        radial-gradient(circle at bottom right, rgba(244, 198, 214, 0.32) 0%, rgba(244, 198, 214, 0) 40%),
+        linear-gradient(180deg,#fbfcfb 0,#fff8fb 42%,var(--bg) 100%);
       padding:32px; font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
       color:#0f172a; -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;
     }
     .container{max-width:1100px;margin:0 auto}
     h2{font-size:26px;margin-bottom:18px;color:var(--accent)}
 
-    .card{background:var(--card);border-radius:14px;box-shadow:0 10px 30px rgba(15,23,42,.06);border:1px solid rgba(15,23,42,.04)}
+    .card{background:linear-gradient(180deg, rgba(255,255,255,.96) 0%, rgba(255,248,251,.94) 100%);border-radius:14px;box-shadow:0 14px 30px rgba(119,96,111,.10);border:1px solid rgba(169,205,177,.22)}
     .card .card-body{padding:20px}
 
     .contexte-card{margin-bottom:16px}
     .contexte-card p{margin:6px 0}
 
+    .adjustment-card{
+      border-radius:20px;
+      border:1px solid rgba(196,154,120,.28);
+      background:
+        linear-gradient(180deg, rgba(255,244,248,.98) 0%, rgba(255,233,241,.96) 100%);
+      box-shadow: 0 18px 34px rgba(196,154,120,.14);
+      margin-top:28px;
+    }
+
+    .adjustment-card .card-body{padding:22px 22px 20px}
+    .adjustment-title{font-weight:800;color:#7a4b48;margin-bottom:10px;display:flex;align-items:center;gap:8px;font-size:1.02rem}
+    .adjustment-list{margin:0;padding-left:18px;color:#5a5a5a;line-height:1.7}
+    .adjustment-list li{margin-bottom:6px}
+    .adjustment-note{margin-top:12px;color:#7a6a66;font-size:14px}
+
     .list-group-item{border-radius:10px;border:1px solid rgba(15,23,42,.04);margin-bottom:10px}
     .list-group-item:hover{transform:translateY(-4px);box-shadow:0 14px 30px rgba(15,23,42,.08)}
 
     .meta-pill{display:inline-block;padding:8px 12px;border-radius:999px;font-weight:700;color:#fff;font-size:14px}
-    .price-main{font-size:18px;font-weight:900;background:linear-gradient(90deg,#0f172a 0,#4f46e5 45%,#06b6d4 100%);-webkit-background-clip:text;background-clip:text;color:transparent;letter-spacing:.2px}
+    .price-main{font-size:18px;font-weight:900;background:linear-gradient(90deg,#7b4e63 0,#c78ca7 45%,#f4c6d6 100%);-webkit-background-clip:text;background-clip:text;color:transparent;letter-spacing:.2px}
     .price-note{display:block;margin-top:8px;font-size:12px;color:#64748b;font-style:italic}
-    .duration-pill{background:linear-gradient(90deg,var(--accent-2),var(--accent));box-shadow:0 8px 24px rgba(79,70,229,.10)}
+    .duration-pill{background:linear-gradient(90deg,#7ead95,#a9cdb1);box-shadow:0 8px 24px rgba(169,205,177,.22)}
     .freq-text{display:block;font-weight:700;color:var(--muted);font-size:13px;margin-top:6px}
 
-    .card-title{font-weight:800;color:#0f172a}
+    .card-title{font-weight:800;color:#2f4f3f}
     .text-muted.small{color:var(--muted)}
 
-    .btn-ghost{background:transparent;border:1px solid rgba(15,23,42,.06);padding:10px 14px;border-radius:10px}
+    .btn-ghost{background:transparent;border:1px solid rgba(169,205,177,.35);padding:10px 14px;border-radius:10px}
+
+    .actions-bar{
+      margin-top: 10px;
+      background: linear-gradient(180deg, rgba(255,248,251,.92) 0%, rgba(255,255,255,.95) 100%);
+      border: 1px solid rgba(244,198,214,.28);
+      border-radius: 12px;
+      padding: 10px;
+    }
+
+    .btn-export-pdf{
+      background: linear-gradient(135deg, #f6d7e3 0%, #efc2d3 100%);
+      color: #6e4055;
+      border: 1px solid rgba(201,132,161,.25);
+      font-weight: 700;
+    }
+
+    .btn-export-pdf:hover{
+      background: linear-gradient(135deg, #f3cfdc 0%, #ebb7cc 100%);
+      color: #5e3648;
+      border-color: rgba(201,132,161,.35);
+    }
 
     /* === Gold Toggle Switch === */
     .gold-toggle-container{
@@ -262,12 +301,26 @@ if (!isset($remiseGold)) {
           </div>
         </div>
 
-        <div class="d-flex gap-2">
+        <div class="d-flex gap-2 actions-bar">
           <a href="/imc" class="btn btn-secondary">← Recalculer IMC</a>
-          <button id="exportPdf" class="btn btn-primary">Exporter en PDF</button>
+          <button id="exportPdf" class="btn btn-export-pdf">Exporter en PDF</button>
         </div>
       </div>
     </div>
+
+    <?php if (!empty($objectifAjuste)): ?>
+      <div class="card adjustment-card">
+        <div class="card-body">
+          <div class="adjustment-title">⚠️ Votre objectif a été ajusté</div>
+          <ul class="adjustment-list">
+            <li><strong>Vous avez choisi :</strong> <?php echo esc($objectifInitialLabel ?? 'Non défini') ?></li>
+            <li><strong>Votre IMC actuel :</strong> <?php echo esc($imc) ?> (<?php echo esc($categorieLabel ?? ucfirst($categorie ?? '')) ?>)</li>
+            <li><strong>Objectif suggéré :</strong> <?php echo esc($objectifFinalLabel ?? 'Non défini') ?></li>
+          </ul>
+          <p class="adjustment-note"><?php echo esc($ajustementMessage ?? 'Votre objectif a été adapté en fonction de votre IMC actuel.') ?></p>
+        </div>
+      </div>
+    <?php endif; ?>
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>

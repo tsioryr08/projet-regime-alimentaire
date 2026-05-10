@@ -17,7 +17,10 @@
         }
 
         body {
-            background: linear-gradient(135deg, #f3f4f6, #e5e7eb);
+            background:
+                radial-gradient(circle at top left, rgba(244, 198, 214, 0.35) 0%, rgba(244, 198, 214, 0) 34%),
+                radial-gradient(circle at bottom right, rgba(169, 205, 177, 0.28) 0%, rgba(169, 205, 177, 0) 38%),
+                linear-gradient(135deg, #fbfcfb 0%, #fff7fa 100%);
             min-height: 100vh;
             display: flex;
             justify-content: center;
@@ -26,23 +29,24 @@
         }
 
         #regForm {
-            background: white;
+            background: linear-gradient(180deg, rgba(255,255,255,0.96) 0%, rgba(255,248,251,0.96) 100%);
             width: 100%;
             max-width: 650px;
             padding: 40px;
-            border-radius: 18px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            border-radius: 22px;
+            box-shadow: 0 20px 50px rgba(119, 96, 111, 0.12);
+            border: 1px solid rgba(244, 198, 214, 0.26);
         }
 
         h1 {
             text-align: center;
             margin-bottom: 10px;
-            color: #111827;
+            color: #2f4f3f;
         }
 
         .subtitle {
             text-align: center;
-            color: #6b7280;
+            color: #7a6a66;
             margin-bottom: 35px;
             font-size: 15px;
         }
@@ -58,7 +62,7 @@
         label {
             display: block;
             margin-bottom: 8px;
-            color: #374151;
+            color: #4b5f52;
             font-size: 14px;
             font-weight: 600;
         }
@@ -75,9 +79,9 @@
 
         input:focus,
         select:focus {
-            border-color: #10b981;
+            border-color: #a9cdb1;
             outline: none;
-            box-shadow: 0 0 0 4px rgba(16, 185, 129, 0.15);
+            box-shadow: 0 0 0 4px rgba(244, 198, 214, 0.18);
         }
 
         input.invalid,
@@ -94,12 +98,12 @@
         }
 
         .server-error {
-            background: #fee2e2;
-            border: 1px solid #ef4444;
-            border-radius: 10px;
+            background: linear-gradient(135deg, rgba(244, 198, 214, 0.26) 0%, rgba(255, 241, 245, 0.95) 100%);
+            border: 1px solid rgba(201, 132, 161, 0.24);
+            border-radius: 14px;
             padding: 12px;
             margin-bottom: 20px;
-            color: #991b1b;
+            color: #8b4c63;
             font-size: 14px;
         }
 
@@ -134,13 +138,13 @@
         }
 
         #prevBtn {
-            background: #d1d5db;
-            color: #111827;
+            background: linear-gradient(135deg, #f4c6d6 0%, #efc2d3 100%);
+            color: #6e4055;
         }
 
         #nextBtn {
-            background: #10b981;
-            color: white;
+            background: linear-gradient(135deg, #a9cdb1 0%, #89b69e 100%);
+            color: #234031;
         }
 
         .steps {
@@ -152,7 +156,7 @@
             height: 12px;
             width: 12px;
             margin: 0 5px;
-            background-color: #d1d5db;
+            background-color: #f0c9d8;
             border-radius: 50%;
             display: inline-block;
             opacity: 0.5;
@@ -161,24 +165,24 @@
 
         .step.active {
             opacity: 1;
-            background-color: #10b981;
+            background-color: #89b69e;
             transform: scale(1.2);
         }
 
         .step.finish {
-            background-color: #10b981;
+            background-color: #a9cdb1;
             opacity: 1;
         }
 
         .register-link {
             text-align: center;
             margin-top: 25px;
-            color: #6b7280;
+            color: #7a6a66;
             font-size: 14px;
         }
 
         .register-link a {
-            color: #10b981;
+            color: #7b4e63;
             text-decoration: none;
             font-weight: 600;
         }
@@ -270,8 +274,8 @@
 
             <div class="grid">
                 <div class="form-group">
-                    <label>Taille (m) *</label>
-                    <input type="number" step="0.01" name="taille" placeholder="1.75" value="<?= old('taille') ?>">
+                    <label>Taille (cm) *</label>
+                    <input type="number" step="0.01" name="taille" placeholder="160" value="<?= old('taille') ?>">
                     <span class="error" data-field="taille"><?= validation_show_error('taille') ?></span>
                 </div>
 

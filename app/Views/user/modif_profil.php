@@ -262,8 +262,8 @@
 
         <div class="grid">
             <div class="form-group">
-                <label>Taille (m) *</label>
-                <input type="number" step="0.01" name="taille" placeholder="1.75" value="<?= old('taille', $user['taille']) ?>">
+                <label>Taille (cm) *</label>
+                <input type="number" step="0.01" name="taille" placeholder="160" value="<?= old('taille', $user['taille']) ?>">
                 <span class="error" data-field="taille"></span>
             </div>
 

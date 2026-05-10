@@ -5,6 +5,7 @@ namespace App\Controllers;
 use App\Models\RegimeModel;
 use App\Models\ActiviteModel;
 use App\Models\ParametreModel;
+use App\Models\UtilisateurModel;
 
 class Regime extends BaseController
 {
@@ -13,12 +14,14 @@ class Regime extends BaseController
     protected $regimeModel;
     protected $activiteModel;
     protected $parametreModel;
+    protected $utilisateurModel;
 
     public function __construct()
     {
         $this->regimeModel = new RegimeModel();
         $this->activiteModel = new ActiviteModel();
         $this->parametreModel = new ParametreModel();
+        $this->utilisateurModel = new UtilisateurModel();
     }
 
     //prepare les données de suggestion à partir de l imc, de l objectif et de la session
@@ -38,14 +41,12 @@ class Regime extends BaseController
             }
         }
 
-        if (empty($objectif)) {
-            if ($categorie === 'maigreur') {
-                $objectif = 'augmenter_poids';
-            } elseif ($categorie === 'surpoids' || $categorie === 'obesite') {
-                $objectif = 'reduire_poids';
-            } else {
-                $objectif = null;
-            }
+        if ($categorie === 'maigreur') {
+            $objectif = 'augmenter_poids';
+        } elseif ($categorie === 'surpoids' || $categorie === 'obesite') {
+            $objectif = 'reduire_poids';
+        } elseif ($categorie === 'normal' && empty($objectif)) {
+            $objectif = null;
         }
 
         $regimes = [];
@@ -76,6 +77,42 @@ class Regime extends BaseController
         return $descriptions[$categorie] ?? 'Résultat généré à partir de vos données.';
     }
 
+    protected function getCategorieLabel(string $categorie): string
+    {
+        $labels = [
+            'maigreur' => 'Maigreur',
+            'normal' => 'Normal',
+            'surpoids' => 'Surpoids',
+            'obesite' => 'Obésité',
+        ];
+
+        return $labels[$categorie] ?? ucfirst($categorie);
+    }
+
+    protected function getObjectifLabel(?string $objectif): string
+    {
+        $labels = [
+            'augmenter_poids' => 'Augmenter mon poids',
+            'reduire_poids' => 'Réduire mon poids',
+            'atteindre_imc_ideal' => 'Atteindre mon IMC idéal',
+        ];
+
+        return $labels[$objectif] ?? 'Non défini';
+    }
+
+    protected function getAjustementMessage(string $categorie, string $objectifSuggere): string
+    {
+        if ($categorie === 'maigreur') {
+            return 'Nous vous recommandons de d’abord augmenter votre poids pour votre santé.';
+        }
+
+        if ($categorie === 'surpoids' || $categorie === 'obesite') {
+            return 'Nous vous recommandons de d’abord réduire votre poids pour votre santé.';
+        }
+
+        return 'Votre objectif a été adapté en fonction de votre IMC actuel.';
+    }
+
     /**
      * Rend une vue de suggestion avec les données standardisées.
      */
@@ -84,12 +121,21 @@ class Regime extends BaseController
         return view(self::SUGGESTION_VIEW, $data);
     }
 
-    //page suggestion:GET/POST 
+    //page suggestion:GET/POST
     public function suggestion()
     {
         // Recuperer IMC depuis param ou session
         $imc = $this->request->getVar('imc');
         $objectif = $this->request->getVar('objectif');
+
+        if (empty($objectif) && session()->get('isLoggedIn') && session()->get('user_id')) {
+            $user = $this->utilisateurModel->find(session()->get('user_id'));
+            if ($user && !empty($user['objectif'])) {
+                $objectif = $user['objectif'];
+            }
+        }
+
+        $objectifInitial = $objectif;
 
         if ($imc === null || $imc === '') {
             $session = session();
@@ -117,6 +163,7 @@ class Regime extends BaseController
         $dataSuggestion = $this->buildSuggestionData($imc, $objectif, $categorieSession ?? null);
         $categorie = $dataSuggestion['categorie'];
         $objectif = $dataSuggestion['objectif'];
+        $objectifAjuste = !empty($objectifInitial) && $objectifInitial !== $objectif;
 
         // Si categorie normale et aucun objectif choisi, afficher choix a l'utilisateur
         if ($categorie === 'normal' && $objectif === null) {
@@ -128,6 +175,7 @@ class Regime extends BaseController
                 'categorie' => $categorie,
                 'objectif' => null,
                 'remiseGold' => $remiseGold,
+                'objectifAjuste' => false,
             ]);
         }
 
@@ -139,6 +187,11 @@ class Regime extends BaseController
             'categorie' => $categorie,
             'objectif' => $objectif,
             'remiseGold' => $remiseGold,
+            'objectifAjuste' => $objectifAjuste,
+            'objectifInitialLabel' => $this->getObjectifLabel($objectifInitial ?: null),
+            'objectifFinalLabel' => $this->getObjectifLabel($objectif),
+            'categorieLabel' => $this->getCategorieLabel($categorie),
+            'ajustementMessage' => $objectifAjuste ? $this->getAjustementMessage($categorie, $objectif) : null,
         ]);
     }
 
