@@ -1,239 +1,253 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Devenir Gold</title>
-    <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: Raleway, sans-serif;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Devenir Gold</title>
+<link href="https://fonts.googleapis.com/css?family=Raleway:400,600,700" rel="stylesheet">
 
-        body {
-            background: linear-gradient(135deg, #f3f4f6, #e5e7eb);
-            min-height: 100vh;
-            padding: 40px 20px;
-        }
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Raleway, sans-serif;
+}
 
-        .container {
-            max-width: 900px;
-            margin: 0 auto;
-            background: white;
-            border-radius: 18px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
-            overflow: hidden;
-        }
+body {
+    background: #f5f6f8;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 30px;
+    color: #111827;
+}
 
-        .header {
-            background: linear-gradient(135deg, #f59e0b, #d97706);
-            color: white;
-            padding: 40px;
-            text-align: center;
-        }
+.container {
+    width: 100%;
+    max-width: 850px;
+    background: white;
+    border-radius: 14px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.06);
+    overflow: hidden;
+}
 
-        .header h1 {
-            font-size: 32px;
-            margin-bottom: 10px;
-        }
+.header {
+    padding: 30px;
+    border-bottom: 1px solid #eee;
+    text-align: center;
+}
 
-        .header p {
-            opacity: 0.9;
-            font-size: 16px;
-        }
+.header h1 {
+    font-size: 24px;
+    font-weight: 700;
+}
 
-        .content {
-            padding: 40px;
-        }
+.header p {
+    margin-top: 6px;
+    color: #6b7280;
+    font-size: 14px;
+}
 
-        .price {
-            text-align: center;
-            margin-bottom: 40px;
-        }
+.content {
+    padding: 30px;
+}
 
-        .price .amount {
-            font-size: 48px;
-            font-weight: bold;
-            color: #f59e0b;
-        }
+/* messages */
+.error-message, .success-message {
+    padding: 12px 14px;
+    border-radius: 8px;
+    font-size: 14px;
+    margin-bottom: 20px;
+}
 
-        .price .period {
-            color: #6b7280;
-        }
+.error-message {
+    background: #fef2f2;
+    color: #991b1b;
+    border: 1px solid #fecaca;
+}
 
-        .price .discount {
-            background: #ef4444;
-            color: white;
-            font-size: 14px;
-            display: inline-block;
-            padding: 5px 15px;
-            border-radius: 20px;
-            margin-left: 15px;
-        }
+.success-message {
+    background: #ecfdf5;
+    color: #065f46;
+    border: 1px solid #a7f3d0;
+}
 
-        .advantages {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 25px;
-            margin-bottom: 40px;
-        }
+/* price */
+.price {
+    text-align: center;
+    margin: 25px 0 35px;
+}
 
-        .advantage-card {
-            background: #fef3c7;
-            padding: 25px;
-            border-radius: 15px;
-            text-align: center;
-            transition: 0.3s;
-        }
+.price .amount {
+    font-size: 42px;
+    font-weight: 700;
+}
 
-        .advantage-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
-        }
+.price .period {
+    display: block;
+    color: #6b7280;
+    margin-top: 5px;
+}
 
-        .advantage-card .icon {
-            font-size: 40px;
-            margin-bottom: 15px;
-        }
+.badge {
+    display: inline-block;
+    margin-top: 10px;
+    padding: 4px 10px;
+    font-size: 12px;
+    background: #111827;
+    color: white;
+    border-radius: 999px;
+}
 
-        .advantage-card h3 {
-            color: #92400e;
-            margin-bottom: 10px;
-        }
+/* grid */
+.advantages {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 15px;
+    margin-bottom: 25px;
+}
 
-        .advantage-card p {
-            color: #6b7280;
-            font-size: 14px;
-        }
+.card {
+    border: 1px solid #eee;
+    border-radius: 12px;
+    padding: 18px;
+    background: #fff;
+}
 
-        .discount-card {
-            background: linear-gradient(135deg, #f59e0b, #d97706);
-            color: white;
-        }
+.card h3 {
+    font-size: 15px;
+    margin-bottom: 6px;
+}
 
-        .discount-card h3, .discount-card p {
-            color: white;
-        }
+.card p {
+    font-size: 13px;
+    color: #6b7280;
+}
 
-        .button-row {
-            display: flex;
-            gap: 15px;
-            justify-content: center;
-            margin-top: 30px;
-        }
+/* highlight card */
+.card.highlight {
+    border-color: #f59e0b;
+    background: #fffbeb;
+}
 
-        .btn {
-            padding: 14px 28px;
-            border: none;
-            border-radius: 10px;
-            cursor: pointer;
-            font-size: 16px;
-            font-weight: 600;
-            transition: 0.2s;
-            text-decoration: none;
-            display: inline-block;
-            text-align: center;
-        }
+/* warning */
+.warning {
+    background: #fafafa;
+    border: 1px solid #eee;
+    padding: 14px;
+    border-radius: 10px;
+    font-size: 13px;
+    color: #374151;
+    margin-top: 10px;
+}
 
-        .btn-gold {
-            background: #f59e0b;
-            color: white;
-        }
+/* actions */
+.actions {
+    display: flex;
+    gap: 12px;
+    margin-top: 25px;
+}
 
-        .btn-gold:hover {
-            background: #d97706;
-            transform: translateY(-2px);
-        }
+.btn {
+    flex: 1;
+    padding: 12px;
+    border-radius: 10px;
+    text-align: center;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 14px;
+    transition: 0.2s;
+}
 
-        .btn-secondary {
-            background: #d1d5db;
-            color: #111827;
-        }
+.btn-secondary {
+    background: #f3f4f6;
+    color: #111827;
+}
 
-        .btn-secondary:hover {
-            background: #9ca3af;
-            transform: translateY(-2px);
-        }
+.btn-secondary:hover {
+    background: #e5e7eb;
+}
 
-        .warning {
-            background: #fef3c7;
-            border-left: 4px solid #f59e0b;
-            padding: 15px;
-            margin-top: 30px;
-            border-radius: 10px;
-            color: #92400e;
-            font-size: 14px;
-        }
+.btn-primary {
+    background: #111827;
+    color: white;
+}
 
-        @media (max-width: 600px) {
-            .content {
-                padding: 20px;
-            }
-            .button-row {
-                flex-direction: column;
-            }
-            .btn {
-                text-align: center;
-            }
-        }
-    </style>
+.btn-primary:hover {
+    background: #000;
+}
+
+@media (max-width: 600px) {
+    .actions {
+        flex-direction: column;
+    }
+}
+</style>
 </head>
+
 <body>
-    <div class="container">
-        <div class="header">
-            <h1>⭐ Devenir Membre Gold</h1>
-            <p>Débloquez tous les avantages premium</p>
-        </div>
 
-        <div class="content">
-            <div class="price">
-                <span class="amount">10 000 Ar</span>
-                <span class="period">pours toujours</span>
-                <span class="discount">-15% sur tout</span>
-            </div>
+<div class="container">
 
-            <div class="advantages">
-                <div class="advantage-card discount-card">
-                    <div class="icon">💰</div>
-                    <h3>15% DE REMISE</h3>
-                    <p>Sur tous les programmes et services</p>
-                </div>
-                <div class="advantage-card">
-                    <div class="icon">📋</div>
-                    <h3>Programmes exclusifs</h3>
-                    <p>Accès à tous les programmes premium</p>
-                </div>
-                <div class="advantage-card">
-                    <div class="icon">🥗</div>
-                    <h3>Repas personnalisés</h3>
-                    <p>Plans de repas sur mesure</p>
-                </div>
-        
-                <div class="advantage-card">
-                    <div class="icon">🎁</div>
-                    <h3>Codes promo exclusifs</h3>
-                    <p>Des réductions toute l'année</p>
-                </div>
-                <div class="advantage-card">
-                    <div class="icon">👑</div>
-                    <h3>Badge Gold</h3>
-                    <p>Reconnaissance sur votre profil</p>
-                </div>
-            </div>
-
-            <div class="warning">
-                Le paiement sera déduit de votre portefeuille. Solde actuel : <?= number_format($solde, 0, ',', ' ') ?> Ar<br>
-                Une fois Gold, bénéficiez de <strong>15% de réduction</strong> sur tous vos achats !
-            </div>
-
-            <div class="button-row">
-                <a href="/utilisateur/profil" class="btn btn-secondary">Annuler</a>
-                <a href="/utilisateur/payerGold" class="btn btn-gold">Payer</a>
-            </div>
-        </div>
+    <div class="header">
+        <h1>Devenir membre Gold</h1>
+        <p>Accès premium à toutes les fonctionnalités</p>
     </div>
+
+    <div class="content">
+
+        <?php if(session()->has('error')): ?>
+            <div class="error-message"><?= session('error') ?></div>
+        <?php endif; ?>
+
+        <?php if(session()->has('success')): ?>
+            <div class="success-message"><?= session('success') ?></div>
+        <?php endif; ?>
+
+        <div class="price">
+            <div class="amount">10 000 Ar</div>
+            <div class="period">paiement unique</div>
+            <div class="badge">-15% sur tout</div>
+        </div>
+
+        <div class="advantages">
+
+            <div class="card highlight">
+                <h3>Réduction</h3>
+                <p>15% sur tous les services</p>
+            </div>
+
+            <div class="card">
+                <h3>Accès premium</h3>
+                <p>Programmes exclusifs</p>
+            </div>
+
+            <div class="card">
+                <h3>Plans personnalisés</h3>
+                <p>Nutrition adaptée à vos objectifs</p>
+            </div>
+
+            <div class="card">
+                <h3>Avantages exclusifs</h3>
+                <p>Codes promo et bonus</p>
+            </div>
+
+        </div>
+
+        <div class="warning">
+            Solde actuel : <?= number_format($solde, 0, ',', ' ') ?> Ar
+        </div>
+
+        <div class="actions">
+            <a href="/utilisateur/profil" class="btn btn-secondary">Annuler</a>
+            <a href="/utilisateur/payerGold" class="btn btn-primary">Payer 10 000 Ar</a>
+        </div>
+
+    </div>
+
+</div>
+
 </body>
 </html>

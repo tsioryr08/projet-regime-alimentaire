@@ -1,309 +1,289 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mon profil</title>
-    <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: Raleway, sans-serif;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mon profil</title>
 
-        body {
-            background: linear-gradient(135deg, #f3f4f6, #e5e7eb);
-            min-height: 100vh;
-            padding: 40px 20px;
-        }
+<link href="https://fonts.googleapis.com/css?family=Raleway:400,600,700" rel="stylesheet">
 
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
-            background: white;
-            border-radius: 18px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
-            overflow: hidden;
-        }
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Raleway, sans-serif;
+}
 
-        .header {
-            background: #10b981;
-            color: white;
-            padding: 30px;
-            text-align: center;
-        }
+body {
+    background: #f5f6f8;
+    min-height: 100vh;
+    padding: 30px;
+    display: flex;
+    justify-content: center;
+    color: #111827;
+}
 
-        .header h1 {
-            font-size: 28px;
-            margin-bottom: 5px;
-        }
+.container {
+    width: 100%;
+    max-width: 820px;
+    background: white;
+    border-radius: 14px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.06);
+    overflow: hidden;
+}
 
-        .header p {
-            opacity: 0.9;
-        }
+/* header */
+.header {
+    padding: 25px;
+    border-bottom: 1px solid #eee;
+    text-align: center;
+}
 
-        .content {
-            padding: 30px;
-        }
+.header h1 {
+    font-size: 22px;
+    font-weight: 700;
+}
 
-        /* Message de succès */
-        .success-message {
-            background: #d1fae5;
-            border: 1px solid #10b981;
-            border-radius: 10px;
-            padding: 15px;
-            margin-bottom: 25px;
-            color: #065f46;
-            font-size: 14px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            animation: slideIn 0.3s ease;
-        }
+.header p {
+    margin-top: 5px;
+    font-size: 14px;
+    color: #6b7280;
+}
 
-        .success-message::before {
-            content: "🎉";
-            font-size: 20px;
-        }
+/* content */
+.content {
+    padding: 25px;
+}
 
-        /* Message d'erreur */
-        .error-message {
-            background: #fee2e2;
-            border: 1px solid #ef4444;
-            border-radius: 10px;
-            padding: 15px;
-            margin-bottom: 25px;
-            color: #991b1b;
-            font-size: 14px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            animation: slideIn 0.3s ease;
-        }
+/* messages */
+.success-message, .error-message {
+    padding: 12px;
+    border-radius: 8px;
+    font-size: 13px;
+    margin-bottom: 18px;
+}
 
-        .error-message::before {
-            content: "❌";
-            font-size: 20px;
-        }
+.success-message {
+    background: #ecfdf5;
+    border: 1px solid #a7f3d0;
+    color: #065f46;
+}
 
-        @keyframes slideIn {
-            from {
-                transform: translateY(-20px);
-                opacity: 0;
-            }
-            to {
-                transform: translateY(0);
-                opacity: 1;
-            }
-        }
+.error-message {
+    background: #fef2f2;
+    border: 1px solid #fecaca;
+    color: #991b1b;
+}
 
-        .info-section {
-            margin-bottom: 25px;
-            padding-bottom: 20px;
-            border-bottom: 1px solid #e5e7eb;
-        }
+/* cards */
+.card {
+    border: 1px solid #eee;
+    border-radius: 12px;
+    padding: 18px;
+    margin-bottom: 15px;
+}
 
-        .info-section h3 {
-            color: #10b981;
-            margin-bottom: 15px;
-            font-size: 18px;
-        }
+.card h3 {
+    font-size: 14px;
+    margin-bottom: 12px;
+    color: #111827;
+}
 
-        .info-row {
-            display: flex;
-            margin-bottom: 12px;
-        }
+/* rows */
+.row {
+    display: flex;
+    justify-content: space-between;
+    padding: 6px 0;
+    font-size: 14px;
+}
 
-        .info-label {
-            width: 140px;
-            font-weight: 600;
-            color: #374151;
-        }
+.label {
+    color: #6b7280;
+}
 
-        .info-value {
-            flex: 1;
-            color: #111827;
-        }
+.value {
+    color: #111827;
+    font-weight: 500;
+}
 
-        .button-row {
-            display: flex;
-            gap: 15px;
-            margin-top: 30px;
-            flex-wrap: wrap;
-        }
+/* gold badge */
+.gold {
+    color: #b45309;
+    font-weight: 700;
+}
 
-        .btn {
-            padding: 12px 24px;
-            border: none;
-            border-radius: 10px;
-            cursor: pointer;
-            font-size: 14px;
-            font-weight: 600;
-            transition: 0.2s;
-            text-decoration: none;
-            display: inline-block;
-            text-align: center;
-        }
+/* buttons */
+.actions {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-top: 20px;
+}
 
-        .btn-primary {
-            background: #10b981;
-            color: white;
-        }
+.btn {
+    padding: 10px 14px;
+    border-radius: 10px;
+    font-size: 13px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: 0.2s;
+    text-align: center;
+}
 
-        .btn-primary:hover {
-            background: #059669;
-            transform: translateY(-1px);
-        }
+.btn-primary {
+    background: #111827;
+    color: white;
+}
 
-        .btn-secondary {
-            background: #d1d5db;
-            color: #111827;
-        }
+.btn-primary:hover {
+    background: #000;
+}
 
-        .btn-secondary:hover {
-            background: #9ca3af;
-            transform: translateY(-1px);
-        }
+.btn-secondary {
+    background: #f3f4f6;
+    color: #111827;
+}
 
-        .btn-danger {
-            background: #ef4444;
-            color: white;
-        }
+.btn-secondary:hover {
+    background: #e5e7eb;
+}
 
-        .btn-danger:hover {
-            background: #dc2626;
-        }
+.btn-danger {
+    background: #ef4444;
+    color: white;
+}
 
-        .btn-code {
-            background: #f59e0b;
-            color: white;
-        }
+.btn-danger:hover {
+    background: #dc2626;
+}
 
-        .btn-code:hover {
-            background: #d97706;
-            transform: translateY(-1px);
-        }
+.btn-gold {
+    background: #f59e0b;
+    color: white;
+}
 
-        @media (max-width: 600px) {
-            .content {
-                padding: 20px;
-            }
-            .info-row {
-                flex-direction: column;
-            }
-            .info-label {
-                margin-bottom: 5px;
-            }
-            .button-row {
-                flex-direction: column;
-            }
-            .btn {
-                text-align: center;
-            }
-        }
-    </style>
+.btn-gold:hover {
+    background: #d97706;
+}
+
+@media (max-width: 600px) {
+    .row {
+        flex-direction: column;
+        gap: 3px;
+    }
+
+    .actions {
+        flex-direction: column;
+    }
+}
+</style>
 </head>
+
 <body>
-    <div class="container">
-        <div class="header">
-            <h1>Mon profil</h1>
-            <p>Bienvenue <?= esc($user['prenom']) ?> !</p>
-        </div>
 
-        <div class="content">
-            <?php if(session()->has('success')): ?>
-                <div class="success-message">
-                    <?= session('success') ?>
-                </div>
-            <?php endif; ?>
+<div class="container">
 
-            <?php if(session()->has('error')): ?>
-                <div class="error-message">
-                    <?= session('error') ?>
-                </div>
-            <?php endif; ?>
-
-            <div class="info-section">
-                <h3>Informations personnelles</h3>
-                <div class="info-row">
-                    <div class="info-label">Nom :</div>
-                    <div class="info-value"><?= esc($user['nom']) ?></div>
-                </div>
-                <div class="info-row">
-                    <div class="info-label">Prénom :</div>
-                    <div class="info-value"><?= esc($user['prenom']) ?></div>
-                </div>
-                <div class="info-row">
-                    <div class="info-label">Email :</div>
-                    <div class="info-value"><?= esc($user['email']) ?></div>
-                </div>
-                <div class="info-row">
-                    <div class="info-label">Genre :</div>
-                    <div class="info-value"><?= ucfirst(esc($user['genre'])) ?></div>
-                </div>
-                <div class="info-row">
-                    <div class="info-label">Date de naissance :</div>
-                    <div class="info-value"><?= date('d/m/Y', strtotime($user['date_naissance'])) ?></div>
-                </div>
-            </div>
-
-            <div class="info-section">
-                <h3>Profil physique</h3>
-                <div class="info-row">
-                    <div class="info-label">Taille :</div>
-                    <div class="info-value"><?= esc($user['taille']) ?> m</div>
-                </div>
-                <div class="info-row">
-                    <div class="info-label">Poids :</div>
-                    <div class="info-value"><?= esc($user['poids']) ?> kg</div>
-                </div>
-                <div class="info-row">
-                    <div class="info-label">Objectif :</div>
-                    <div class="info-value">
-                        <?php 
-                        $objectifs = [
-                            'augmenter_poids' => 'Augmenter le poids',
-                            'reduire_poids' => 'Réduire le poids',
-                            'imc_ideal' => 'IMC idéal'
-                        ];
-                        echo isset($objectifs[$user['objectif']]) ? $objectifs[$user['objectif']] : esc($user['objectif']);
-                        ?>
-                    </div>
-                </div>
-            </div>
-
-            <div class="info-section">
-                <h3>Informations compte</h3>
-                <div class="info-row">
-                    <div class="info-label">Solde :</div>
-                    <div class="info-value"><?= number_format($user['solde_portefeuille'], 0, ',', ' ') ?> Ar</div>
-                </div>
-                <div class="info-row">
-                    <div class="info-label">Statut :</div>
-                    <div class="info-value">
-                        <?php if($user['is_gold']): ?>
-                            <span style="color: #f59e0b; font-weight: bold;">⭐ Membre Gold</span>
-                        <?php else: ?>
-                            Membre Standard
-                        <?php endif; ?>
-                    </div>
-                </div>
-                <div class="info-row">
-                    <div class="info-label">Membre depuis :</div>
-                    <div class="info-value"><?= date('d/m/Y', strtotime($user['created_at'])) ?></div>
-                </div>
-            </div>
-
-            <div class="button-row">
-                <a href="/utilisateur/dashboard" class="btn btn-secondary">Retour</a>
-                <a href="/utilisateur/modifProfil" class="btn btn-primary">Modifier mon profil</a>
-                <a href="/utilisateur/saisirCode" class="btn btn-code">Saisir un code</a>
-                <a href="/utilisateur/devenirGold" class="btn btn-primary" style="background: #f59e0b;">⭐ Devenir Gold</a>
-                <a href="/utilisateur/logout" class="btn btn-danger">Déconnexion</a>
-            </div>
-        </div>
+    <div class="header">
+        <h1>Mon profil</h1>
+        <p>Bienvenue <?= esc($user['prenom']) ?></p>
     </div>
+
+    <div class="content">
+
+        <?php if(session()->has('success')): ?>
+            <div class="success-message"><?= session('success') ?></div>
+        <?php endif; ?>
+
+        <?php if(session()->has('error')): ?>
+            <div class="error-message"><?= session('error') ?></div>
+        <?php endif; ?>
+
+        <div class="card">
+            <h3>Informations personnelles</h3>
+
+            <div class="row">
+                <span class="label">Nom</span>
+                <span class="value"><?= esc($user['nom']) ?></span>
+            </div>
+
+            <div class="row">
+                <span class="label">Prénom</span>
+                <span class="value"><?= esc($user['prenom']) ?></span>
+            </div>
+
+            <div class="row">
+                <span class="label">Email</span>
+                <span class="value"><?= esc($user['email']) ?></span>
+            </div>
+
+            <div class="row">
+                <span class="label">Genre</span>
+                <span class="value"><?= ucfirst(esc($user['genre'])) ?></span>
+            </div>
+
+            <div class="row">
+                <span class="label">Naissance</span>
+                <span class="value"><?= date('d/m/Y', strtotime($user['date_naissance'])) ?></span>
+            </div>
+        </div>
+
+        <!-- physique -->
+        <div class="card">
+            <h3>Profil physique</h3>
+
+            <div class="row">
+                <span class="label">Taille</span>
+                <span class="value"><?= esc($user['taille']) ?> m</span>
+            </div>
+
+            <div class="row">
+                <span class="label">Poids</span>
+                <span class="value"><?= esc($user['poids']) ?> kg</span>
+            </div>
+
+            <div class="row">
+                <span class="label">Objectif</span>
+                <span class="value"><?= esc($user['objectif']) ?></span>
+            </div>
+        </div>
+
+        <!-- compte -->
+        <div class="card">
+            <h3>Compte</h3>
+
+            <div class="row">
+                <span class="label">Solde</span>
+                <span class="value"><?= number_format($user['solde_portefeuille'], 0, ',', ' ') ?> Ar</span>
+            </div>
+
+            <div class="row">
+                <span class="label">Statut</span>
+                <span class="value">
+                    <?php if($user['is_gold']): ?>
+                        <span class="gold">⭐ Gold</span>
+                    <?php else: ?>
+                        Standard
+                    <?php endif; ?>
+                </span>
+            </div>
+
+            <div class="row">
+                <span class="label">Inscrit depuis</span>
+                <span class="value"><?= date('d/m/Y', strtotime($user['created_at'])) ?></span>
+            </div>
+        </div>
+
+        <div class="actions">
+            <a href="/utilisateur/dashboard" class="btn btn-secondary">Retour</a>
+            <a href="/utilisateur/modifProfil" class="btn btn-primary">Modifier</a>
+            <a href="/utilisateur/saisirCode" class="btn btn-secondary">Code</a>
+            <a href="/utilisateur/devenirGold" class="btn btn-gold">Devenir Gold</a>
+            <a href="/utilisateur/logout" class="btn btn-danger">Déconnexion</a>
+        </div>
+
+    </div>
+</div>
+
 </body>
 </html>
