@@ -1,8 +1,4 @@
--- ============================================================
---  BASE DE DONNÉES : Application Régime Alimentaire
---  Projet S4 — Tsiory, Njary, Olivier
---  Généré le : 06 mai 2026
--- ============================================================
+
 
 CREATE DATABASE IF NOT EXISTS regime_db
     CHARACTER SET utf8mb4
@@ -10,10 +6,7 @@ CREATE DATABASE IF NOT EXISTS regime_db
 
 USE regime_db;
 
--- ============================================================
---  TABLE : utilisateurs
---  Gérée par : Njary
--- ============================================================
+
 
 CREATE TABLE utilisateurs (
     id                  INT AUTO_INCREMENT PRIMARY KEY,
@@ -33,10 +26,6 @@ CREATE TABLE utilisateurs (
     updated_at          DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
 
--- ============================================================
---  TABLE : imc_historique
---  Gérée par : Tsiory
--- ============================================================
 
 CREATE TABLE imc_historique (
     id              INT AUTO_INCREMENT PRIMARY KEY,
@@ -71,10 +60,7 @@ CREATE TABLE regimes (
     updated_at          DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
 
--- ============================================================
---  TABLE : activites
---  Gérée par : Tsiory (données) + Olivier (CRUD admin)
--- ============================================================
+
 
 CREATE TABLE activites (
     id              INT AUTO_INCREMENT PRIMARY KEY,
@@ -88,10 +74,7 @@ CREATE TABLE activites (
     created_at      DATETIME DEFAULT CURRENT_TIMESTAMP
 );
 
--- ============================================================
---  TABLE : suggestions
---  Gérée par : Tsiory
--- ============================================================
+
 
 CREATE TABLE suggestions (
     id              INT AUTO_INCREMENT PRIMARY KEY,
@@ -116,10 +99,6 @@ CREATE TABLE suggestions (
         ON DELETE CASCADE
 );
 
--- ============================================================
---  TABLE : codes
---  Gérée par : Njary (front) + Olivier (validation admin)
--- ============================================================
 
 CREATE TABLE codes (
     id               INT AUTO_INCREMENT PRIMARY KEY,
@@ -135,10 +114,6 @@ CREATE TABLE codes (
         ON DELETE SET NULL
 );
 
--- ============================================================
---  TABLE : parametres
---  Gérée par : Olivier (CRUD admin)
--- ============================================================
 
 CREATE TABLE parametres (
     id          INT AUTO_INCREMENT PRIMARY KEY,
@@ -148,10 +123,6 @@ CREATE TABLE parametres (
     updated_at  DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
 
--- ============================================================
---  TABLE : admins
---  Gérée par : Olivier
--- ============================================================
 
 CREATE TABLE admins (
     id         INT AUTO_INCREMENT PRIMARY KEY,
@@ -161,11 +132,7 @@ CREATE TABLE admins (
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP
 );
 
--- ============================================================
---  DONNÉES INITIALES
--- ============================================================
 
--- ─── 5 Utilisateurs
 INSERT INTO utilisateurs (
     nom,
     prenom,
@@ -186,7 +153,6 @@ VALUES
 ('Rakotondr', 'Hanta', 'hanta.r@gmail.com', MD5('password123'), 'femme', '2000-01-30', 1.58, 55.00, 'imc_ideal', 0.00, 0),
 ('Razafy', 'Feno', 'feno.razafy@gmail.com', MD5('password123'), 'homme', '1993-09-18', 1.70, 70.00, 'imc_ideal', 15000.00, 0);
 
--- ─── 5 Régimes
 INSERT INTO regimes (
     nom,
     description,
@@ -261,7 +227,6 @@ VALUES
     'maigreur'
 );
 
--- ─── 5 Activités sportives
 INSERT INTO activites (
     nom,
     description,
@@ -318,8 +283,6 @@ VALUES
     'reduire_poids'
 );
 
--- ─── Suggestions/commandes initiales pour alimenter les statistiques du dashboard
--- Utilise les emails/noms au lieu d'IDs fixes, car AUTO_INCREMENT peut varier.
 INSERT INTO suggestions (utilisateur_id, regime_id, activite_id, prix_final, remise_gold)
 SELECT u.id, r.id, a.id, 45000.00, 0
 FROM utilisateurs u, regimes r, activites a
@@ -363,7 +326,6 @@ WHERE u.email = 'feno.razafy@gmail.com'
   AND r.nom = 'Régime Prise de Masse'
   AND a.nom = 'Musculation';
 
--- ─── 15 Codes porte-monnaie
 INSERT INTO codes (code, montant)
 VALUES
 ('BIENVENUE2026', 5000.00),
@@ -382,7 +344,6 @@ VALUES
 ('BOOST-IMC', 6500.00),
 ('VIP-REGIME', 15000.00);
 
--- ─── Paramètres système
 INSERT INTO parametres (cle, valeur, description)
 VALUES
 ('prix_gold', '50000', 'Prix de l''option Gold en Ariary'),
@@ -393,7 +354,6 @@ VALUES
 ('imc_normal_max', '24.9', 'Valeur max IMC pour catégorie normale'),
 ('imc_surpoids_max', '29.9', 'Valeur max IMC pour catégorie surpoids');
 
--- ─── Admin par défaut
 INSERT INTO admins (nom, email, password)
 VALUES
 ('Administrateur', 'admin@regime-app.mg', MD5('admin2026'));
