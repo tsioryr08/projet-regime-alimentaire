@@ -28,12 +28,20 @@
         <div class="table-card">
           <div class="card-header"><div><div class="card-title">Liste des régimes</div><div class="subtitle">Gérez les régimes disponibles et leurs paramètres.</div></div><a class="btn btn-primary btn-sm" href="<?= site_url('admin/regimes/create') ?>">Nouveau</a></div>
           <table>
-            <thead><tr><th>ID</th><th>Nom</th><th>Prix</th><th>Actions</th></tr></thead>
+            <thead><tr><th>ID</th><th>Nom</th><th>Description</th><th>Composition</th><th>Prix</th><th>Actions</th></tr></thead>
             <tbody>
               <?php foreach (($regimes ?? []) as $regime): ?>
                 <tr>
                   <td><?= esc($regime['id']) ?></td>
                   <td><?= esc($regime['nom']) ?></td>
+                  <td><?= esc($regime['description'] ?? '-') ?></td>
+                  <td>
+                    <div style="display:flex; flex-direction:column; gap:4px;">
+                      <span>Viande : <strong><?= esc($regime['pct_viande'] ?? '0') ?>%</strong></span>
+                      <span>Poisson : <strong><?= esc($regime['pct_poisson'] ?? '0') ?>%</strong></span>
+                      <span>Volaille : <strong><?= esc($regime['pct_volaille'] ?? '0') ?>%</strong></span>
+                    </div>
+                  </td>
                   <td><?= esc($regime['prix_base']) ?></td>
                   <td><a class="btn btn-ghost btn-sm" href="<?= site_url('admin/regimes/edit/' . $regime['id']) ?>">Modifier</a></td>
                 </tr>

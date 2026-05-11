@@ -60,6 +60,18 @@ if (!isset($remiseGold)) {
     .price-note{display:block;margin-top:8px;font-size:12px;color:#64748b;font-style:italic}
     .duration-pill{background:linear-gradient(90deg,#7ead95,#a9cdb1);box-shadow:0 8px 24px rgba(169,205,177,.22)}
     .freq-text{display:block;font-weight:700;color:var(--muted);font-size:13px;margin-top:6px}
+    .composition-box{
+      margin-top:10px;
+      padding:10px 12px;
+      border-radius:12px;
+      background:linear-gradient(180deg, rgba(247,250,244,.95) 0%, rgba(255,255,255,.96) 100%);
+      border:1px solid rgba(169,205,177,.22);
+      box-shadow:0 8px 20px rgba(119,96,111,.06);
+    }
+    .composition-title{font-size:12px;font-weight:800;color:#4f6f5b;letter-spacing:.3px;text-transform:uppercase;margin-bottom:8px}
+    .composition-list{display:flex;flex-wrap:wrap;gap:8px}
+    .composition-item{display:inline-flex;align-items:center;gap:6px;padding:6px 10px;border-radius:999px;background:#fff;border:1px solid rgba(201,132,161,.18);font-size:12px;color:#5b4750;font-weight:600}
+    .composition-value{font-weight:800;color:#8a4f67}
 
     .card-title{font-weight:800;color:#2f4f3f}
     .text-muted.small{color:var(--muted)}
@@ -175,6 +187,16 @@ if (!isset($remiseGold)) {
       <div>
         <strong><?php echo esc($r['nom']) ?></strong>
         <div class="text-muted small"><?php echo esc($r['description'] ?? '') ?></div>
+        <?php if (isset($r['pct_viande']) || isset($r['pct_poisson']) || isset($r['pct_volaille'])): ?>
+          <div class="composition-box">
+            <div class="composition-title">Composition nutritionnelle</div>
+            <div class="composition-list">
+              <span class="composition-item">Viande <span class="composition-value"><?php echo number_format((float) ($r['pct_viande'] ?? 0), 0, ',', ' ') ?>%</span></span>
+              <span class="composition-item">Poisson <span class="composition-value"><?php echo number_format((float) ($r['pct_poisson'] ?? 0), 0, ',', ' ') ?>%</span></span>
+              <span class="composition-item">Volaille <span class="composition-value"><?php echo number_format((float) ($r['pct_volaille'] ?? 0), 0, ',', ' ') ?>%</span></span>
+            </div>
+          </div>
+        <?php endif; ?>
 
         <!-- Bouton Commander -->
         <?php if (isset($r['id'])): ?>
@@ -474,7 +496,12 @@ if (!isset($remiseGold)) {
       } else {
         pdfData.regimes.forEach((regime) => {
           const descLines = pdf.splitTextToSize(String(regime.description || ''), contentWidth - 160);
-          const cardHeight = 20 + (descLines.length * 12) + (pdfData.context.gold_active ? 34 : 18) + (regime.duree_jours ? 16 : 0) + (regime.poids_cible ? 32 : 0) + 22;
+          const compositionLines = [
+            `Viande : ${Number(regime.pct_viande || 0).toFixed(0)}%`,
+            `Poisson : ${Number(regime.pct_poisson || 0).toFixed(0)}%`,
+            `Volaille : ${Number(regime.pct_volaille || 0).toFixed(0)}%`,
+          ];
+          const cardHeight = 20 + (descLines.length * 12) + 18 + (compositionLines.length * 14) + (pdfData.context.gold_active ? 34 : 18) + (regime.duree_jours ? 16 : 0) + (regime.poids_cible ? 32 : 0) + 22;
           ensureSpace(cardHeight + 12);
           addRoundedPanel(pdf, marginX, y, contentWidth, cardHeight, palette.panel, palette.border);
 
@@ -491,6 +518,17 @@ if (!isset($remiseGold)) {
           }
 
           let bodyY = y + 33 + (descLines.length * 12);
+          pdf.setFont('helvetica', 'bold');
+          pdf.setFontSize(10);
+          pdf.setTextColor(...palette.badge);
+          pdf.text('Composition nutritionnelle', marginX + 14, bodyY + 12);
+
+          pdf.setFont('helvetica', 'normal');
+          pdf.setFontSize(9.5);
+          pdf.setTextColor(...palette.text);
+          pdf.text(compositionLines, marginX + 20, bodyY + 27);
+
+          bodyY += 50;
           pdf.setFontSize(10);
           pdf.setTextColor(...palette.text);
 
