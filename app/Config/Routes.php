@@ -63,6 +63,7 @@ $routes->group('admin', ['namespace' => 'App\Controllers\Admin'], function($rout
         $routes->match(['get', 'post'], 'activites/edit/(:num)', 'ActiviteAdminController::edit/$1');
 
         $routes->get('codes', 'CodeAdminController::index');
+        $routes->match(['get', 'post'], 'codes/create', 'CodeAdminController::create');
         $routes->match(['get', 'post'], 'codes/validation/(:num)', 'CodeAdminController::validation/$1');
 
         $routes->match(['get', 'post'], 'parametres', 'ParametreController::index');

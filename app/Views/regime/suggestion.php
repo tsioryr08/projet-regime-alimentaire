@@ -1,7 +1,10 @@
 <?php
 // Vue : suggestion de régimes et activités selon IMC + objectif
 $session = session();
-$isGoldActive = 0;
+$isGoldActive = !empty($isGoldActive) ? (bool) $isGoldActive : (bool) $session->get('is_gold');
+$userDisplayName = $utilisateurNom ?? ($session->get('user_nom') ?? 'Utilisateur');
+$userDisplayEmail = $utilisateurEmail ?? ($session->get('user_email') ?? '');
+$poidsCibleGlobal = $poidsCibleGlobal ?? null;
 // remiseGold passee dynamiquement depuis le controller
 if (!isset($remiseGold)) {
     $remiseGold = 15; // Fallback si non defini
@@ -84,94 +87,16 @@ if (!isset($remiseGold)) {
       border-color: rgba(201,132,161,.35);
     }
 
-    /* === Gold Toggle Switch === */
-    .gold-toggle-container{
-      background: linear-gradient(135deg, rgba(15,23,42,0.02) 0%, rgba(212,175,55,0.08) 100%);
-      border: 1px solid rgba(212,175,55,0.18);
-      border-radius: 12px;
-      padding: 16px;
-      margin-bottom: 20px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-
-    .gold-toggle-label{
-      display: flex;
-      flex-direction: column;
-      gap: 4px;
-    }
-
-    .gold-toggle-label .label-text{
-      font-weight: 700;
-      background: linear-gradient(90deg,#7a5a00 0%,#d4af37 42%,#f6e8a8 100%);
-      -webkit-background-clip: text;
-      background-clip: text;
-      color: transparent;
-      font-size: 14px;
-      letter-spacing: .2px;
-    }
-
-    .gold-toggle-label .label-desc{
-      font-size: 12px;
-      color: #8a7a45;
-    }
-
-    /* Toggle Switch - Style WiFi/Interrupteur */
-    .toggle-switch{
-      position: relative;
-      display: inline-block;
-      width: 60px;
-      height: 32px;
-    }
-
-    .toggle-switch input{
-      opacity: 0;
-      width: 0;
-      height: 0;
-    }
-
-    .toggle-switch .slider{
-      position: absolute;
-      cursor: pointer;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background-color: #cbd5e1;
-      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-      border-radius: 20px;
-    }
-
-    .toggle-switch .slider:before{
-      position: absolute;
-      content: "";
-      height: 26px;
-      width: 26px;
-      left: 3px;
-      bottom: 3px;
-      background-color: white;
-      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-      border-radius: 50%;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-    }
-
-    .toggle-switch input:checked + .slider{
-      background: linear-gradient(135deg, #8a6500 0%, #d4af37 55%, #f8e7a8 100%);
-      box-shadow: 0 4px 15px rgba(212,175,55,0.35);
-    }
-
-    .toggle-switch input:checked + .slider:before{
-      transform: translateX(28px);
-    }
-
-    .toggle-switch input:hover + .slider{
-      box-shadow: 0 2px 12px rgba(0,0,0,0.15);
-    }
+    .price-stack{display:flex;flex-direction:column;align-items:flex-end;gap:4px}
+    .price-original{font-size:13px;color:#94a3b8;text-decoration:line-through}
+    .price-current{font-size:18px;font-weight:900;background:linear-gradient(90deg,#7b4e63 0,#c78ca7 45%,#f4c6d6 100%);-webkit-background-clip:text;background-clip:text;color:transparent;letter-spacing:.2px}
+    .gold-badge{display:inline-flex;align-items:center;gap:6px;padding:5px 10px;border-radius:999px;background:linear-gradient(135deg,#8a6500 0%,#d4af37 55%,#f8e7a8 100%);color:#5e4200;font-size:12px;font-weight:800;box-shadow:0 4px 15px rgba(212,175,55,0.22)}
 
     /* Rendu PDF : remplace les textes en dégradé par une couleur pleine lisible */
     .pdf-export-mode .price-main,
-    .pdf-export-mode .gold-toggle-label .label-text{
+    .pdf-export-mode .price-current,
+    .pdf-export-mode .price-original,
+    .pdf-export-mode .gold-badge{
       background: none !important;
       -webkit-background-clip: initial !important;
       background-clip: initial !important;
@@ -179,14 +104,14 @@ if (!isset($remiseGold)) {
       -webkit-text-fill-color: #b8860b !important;
     }
 
-    .pdf-export-mode .price-main{
+    .pdf-export-mode .price-current{
       font-weight: 800;
     }
 
     @media (max-width: 900px){
       .suggestion-container{padding:56px 16px 48px}
       .list-group-item{margin-bottom:12px}
-      .gold-toggle-container{flex-direction: column;gap: 12px;align-items: flex-start}
+      .price-stack{align-items:flex-start}
     }
   </style>
 </head>
@@ -210,18 +135,6 @@ if (!isset($remiseGold)) {
       <div class="alert alert-warning"><?php echo esc($error) ?></div>
     <?php endif; ?>
 
-    <!-- Gold Toggle Switch -->
-    <div class="gold-toggle-container" data-remise-gold="<?php echo $remiseGold ?>">
-      <div class="gold-toggle-label">
-        <span class="label-text">Devenir Gold maintenant</span>
-        <span class="label-desc">Obtenez <?php echo $remiseGold ?>% de remise sur tous les régimes</span>
-      </div>
-      <label class="toggle-switch">
-        <input type="checkbox" id="goldToggle" data-is-gold="<?php echo $isGoldActive ?>" aria-label="Activer ou désactiver l'option Gold">
-        <span class="slider" aria-hidden="true"></span>
-      </label>
-    </div>
-
     <div class="row">
       <div class="col-md-6">
         <div class="card mb-3">
@@ -229,7 +142,12 @@ if (!isset($remiseGold)) {
             <h5 class="card-title">Contexte</h5>
             <p>IMC détecté : <strong><?php echo esc($imc) ?? '-' ?></strong></p>
             <p>Catégorie : <strong><?php echo esc($categorie ?? '-') ?></strong></p>
-            <p>Objectif : <strong><?php echo isset($objectif) && $objectif ? esc($objectif) : '-' ?></strong></p>
+            <p>Objectif : <strong><?php echo esc($objectifAffiche ?? $objectif ?? '-') ?></strong></p>
+            <?php if (!empty($poidsActuel) && !empty($taille)): ?>
+              <?php $tailleEnMetres = $taille > 10 ? $taille / 100 : $taille; ?>
+              <p>Poids actuel : <strong><?php echo number_format($poidsActuel, 2, ',', ' ') ?> kg</strong></p>
+              <p>Poids cible (IMC = 22) : <strong><?php echo number_format($poidsCibleGlobal ?? (22 * ($tailleEnMetres * $tailleEnMetres)), 2, ',', ' ') ?> kg</strong></p>
+            <?php endif; ?>
           </div>
         </div>
 
@@ -264,7 +182,14 @@ if (!isset($remiseGold)) {
             <?= csrf_field() ?>
             <input type="hidden" name="regime_id" value="<?= esc($r['id']) ?>">
 
-            <!-- optionnel: garder le contexte pour revenir sur la même suggestion -->
+            <!-- Première activité suggérée est sélectionnée automatiquement -->
+            <?php if (!empty($activites)): ?>
+              <input type="hidden" name="activite_id" value="<?= esc($activites[0]['id']) ?>">
+            <?php else: ?>
+              <input type="hidden" name="activite_id" value="1">
+            <?php endif; ?>
+
+            <!-- garder le contexte pour revenir sur la même suggestion -->
             <input type="hidden" name="imc" value="<?= esc($imc ?? '') ?>">
             <input type="hidden" name="objectif" value="<?= esc($objectif ?? '') ?>">
 
@@ -278,15 +203,34 @@ if (!isset($remiseGold)) {
       <div class="text-end">
         <?php if (isset($r['prix_base'])): ?>
           <?php $prixBase = (float) $r['prix_base']; ?>
-          <span class="price-main" data-price-base="<?php echo $prixBase ?>">
-            <?php echo number_format($prixBase, 2, ',', ' ') ?> Ar
-          </span>
-          <span class="price-note">⭐ Bénéficiez d'une remise si vous optez pour l'option Gold</span>
+          <?php $prixAffiche = $isGoldActive ? $prixBase * (1 - ((float) $remiseGold / 100)) : $prixBase; ?>
+          <div class="price-stack">
+            <?php if ($isGoldActive): ?>
+              <span class="gold-badge">Gold actif - <?php echo esc($remiseGold) ?>% appliqué</span>
+              <span class="price-original"><?php echo number_format($prixBase, 2, ',', ' ') ?> Ar</span>
+            <?php endif; ?>
+            <span class="price-current"><?php echo number_format($prixAffiche, 2, ',', ' ') ?> Ar</span>
+          </div>
+          <?php if ($isGoldActive): ?>
+            <span class="price-note">Le prix Gold est appliqué automatiquement selon votre profil.</span>
+          <?php else: ?>
+            <span class="price-note">Prix standard du régime.</span>
+          <?php endif; ?>
         <?php endif; ?>
 
         <?php if (isset($r['duree_jours'])): ?>
           <div style="margin-top:8px;">
             <span class="meta-pill duration-pill"><?php echo esc($r['duree_jours']) ?> jours</span>
+          </div>
+        <?php endif; ?>
+
+        <?php if (!empty($r['variation_par_semaine']) && !empty($r['poids_cible'])): ?>
+          <div style="margin-top:12px; padding:10px; background:#f0f4f8; border-radius:8px; font-size:13px; color:#374151;">
+            <strong>Évolution estimée:</strong><br>
+            <span style="display:block; margin-top:4px;">• Variation/semaine: <?php echo number_format($r['variation_par_semaine'], 2, ',', ' ') ?> kg</span>
+            <?php if (!empty($r['poids_actuel'])): ?>
+              <span style="display:block; margin-top:4px;">• Poids final estimé: <?php echo number_format($r['poids_cible'], 2, ',', ' ') ?> kg (IMC=22)</span>
+            <?php endif; ?>
           </div>
         <?php endif; ?>
       </div>
@@ -352,28 +296,299 @@ if (!isset($remiseGold)) {
     <?php endif; ?>
   </main>
 
-  <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
-  <script src="/js/gold-toggle.js"></script>
   <script>
-    document.getElementById('exportPdf')?.addEventListener('click', async () => {
-      const container = document.querySelector('.suggestion-container');
-      if (!container) return alert('Rien à exporter');
+    const pdfData = <?= json_encode([
+      'user' => [
+        'name' => $userDisplayName,
+        'email' => $userDisplayEmail,
+      ],
+      'context' => [
+        'imc' => $imc,
+        'categorie' => $categorie ?? '-',
+        'objectif' => $objectifAffiche ?? $objectif ?? '-',
+        'poids_actuel' => $poidsActuel,
+        'poids_cible' => $poidsCibleGlobal,
+        'taille' => $taille,
+        'gold_active' => $isGoldActive,
+        'remise_gold' => $remiseGold,
+      ],
+      'regimes' => $regimes ?? [],
+      'activites' => $activites ?? [],
+    ], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) ?>;
 
-      document.body.classList.add('pdf-export-mode');
-      await new Promise(requestAnimationFrame);
+    const palette = {
+      page: [247, 250, 244],
+      header: [152, 190, 167],
+      headerDark: [111, 149, 128],
+      panel: [241, 247, 238],
+      panelAlt: [229, 240, 232],
+      border: [193, 214, 199],
+      text: [38, 64, 52],
+      muted: [92, 110, 99],
+      badge: [120, 154, 137],
+      accent: [96, 129, 112],
+      white: [255, 255, 255],
+    };
 
-      html2canvas(container, {scale: 1.5}).then(canvas => {
-        const imgData = canvas.toDataURL('image/png');
-        const { jsPDF } = window.jspdf;
-        const pdf = new jsPDF({orientation: 'portrait', unit: 'pt', format: 'a4'});
-        const pageWidth = pdf.internal.pageSize.getWidth();
-        const imgWidth = pageWidth - 40;
-        const imgHeight = (canvas.height * imgWidth) / canvas.width;
-        pdf.addImage(imgData, 'PNG', 20, 20, imgWidth, imgHeight);
-        pdf.save('suggestions_imc.pdf');
-      }).catch(err => { console.error(err); alert('Erreur export PDF'); })
-        .finally(() => document.body.classList.remove('pdf-export-mode'));
+    const formatMoney = (value) => new Intl.NumberFormat('fr-FR', { minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(Number(value || 0)) + ' Ar';
+    const formatKg = (value) => new Intl.NumberFormat('fr-FR', { minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(Number(value || 0)) + ' kg';
+    const normalizeTaille = (taille) => {
+      const value = Number(taille || 0);
+      if (!value) return null;
+      return value > 10 ? value / 100 : value;
+    };
+    const getCurrentPrice = (regime) => {
+      const base = Number(regime.prix_base || 0);
+      if (pdfData.context.gold_active) {
+        return base * (1 - (Number(pdfData.context.remise_gold || 0) / 100));
+      }
+      return base;
+    };
+    const getVariationLabel = (regime) => {
+      const variation = Number(regime.variation_par_semaine || 0);
+      const prefix = regime.sens_variation === 'perte' ? '-' : '+';
+      return `${prefix}${variation.toFixed(2).replace('.', ',')} kg/semaine`;
+    };
+    const getTargetWeightLabel = () => {
+      const tailleMetres = normalizeTaille(pdfData.context.taille);
+      if (!tailleMetres) return '-';
+      return formatKg(22 * (tailleMetres * tailleMetres));
+    };
+    const addRoundedPanel = (pdf, x, y, w, h, fillColor, strokeColor) => {
+      pdf.setFillColor(...fillColor);
+      pdf.setDrawColor(...strokeColor);
+      pdf.roundedRect(x, y, w, h, 10, 10, 'FD');
+    };
+    const addSectionTitle = (pdf, title, subtitle, x, y, width) => {
+      pdf.setFillColor(...palette.panelAlt);
+      pdf.setDrawColor(...palette.border);
+      pdf.roundedRect(x, y, width, 42, 10, 10, 'FD');
+      pdf.setFont('helvetica', 'bold');
+      pdf.setFontSize(14);
+      pdf.setTextColor(...palette.text);
+      pdf.text(title, x + 14, y + 17);
+      if (subtitle) {
+        pdf.setFont('helvetica', 'normal');
+        pdf.setFontSize(9);
+        pdf.setTextColor(...palette.muted);
+        pdf.text(subtitle, x + 14, y + 31);
+      }
+      return y + 54;
+    };
+    const exportSuggestionPdf = () => {
+      const { jsPDF } = window.jspdf;
+      const pdf = new jsPDF({ orientation: 'portrait', unit: 'pt', format: 'a4' });
+      const pageWidth = pdf.internal.pageSize.getWidth();
+      const pageHeight = pdf.internal.pageSize.getHeight();
+      const marginX = 34;
+      const contentWidth = pageWidth - (marginX * 2);
+      const bottomMargin = 40;
+      let y = 34;
+
+      const writeWrapped = (text, x, yPos, width, fontSize = 10, color = palette.text, style = 'normal', lineHeight = 1.35) => {
+        pdf.setFont('helvetica', style);
+        pdf.setFontSize(fontSize);
+        pdf.setTextColor(...color);
+        const lines = pdf.splitTextToSize(String(text || ''), width);
+        pdf.text(lines, x, yPos);
+        return lines.length * fontSize * lineHeight;
+      };
+
+      const ensureSpace = (neededHeight) => {
+        if (y + neededHeight > pageHeight - bottomMargin) {
+          pdf.addPage();
+          pdf.setFillColor(...palette.page);
+          pdf.rect(0, 0, pageWidth, pageHeight, 'F');
+          y = 34;
+          drawHeader();
+        }
+      };
+
+      const drawHeader = () => {
+        pdf.setFillColor(...palette.header);
+        pdf.roundedRect(marginX, y, contentWidth, 88, 16, 16, 'F');
+        pdf.setFont('helvetica', 'bold');
+        pdf.setFontSize(20);
+        pdf.setTextColor(...palette.white);
+        pdf.text('Suggestions Régime & Activités', marginX + 18, y + 28);
+        pdf.setFont('helvetica', 'normal');
+        pdf.setFontSize(10);
+        pdf.text('Document de suivi personnalisé', marginX + 18, y + 46);
+        pdf.setFont('helvetica', 'bold');
+        pdf.text(`Utilisateur : ${pdfData.user.name || 'Utilisateur'}`, marginX + 18, y + 62);
+        pdf.setFont('helvetica', 'normal');
+        pdf.text(`Généré le : ${new Date().toLocaleDateString('fr-FR')}`, marginX + 18, y + 76);
+        y += 106;
+      };
+
+      pdf.setFillColor(...palette.page);
+      pdf.rect(0, 0, pageWidth, pageHeight, 'F');
+      drawHeader();
+
+      y = addSectionTitle(pdf, 'Profil & objectif', 'Résumé des données prises en compte', marginX, y, contentWidth);
+      ensureSpace(128);
+      const boxWidth = (contentWidth - 12) / 2;
+      const infoHeight = 92;
+      addRoundedPanel(pdf, marginX, y, boxWidth, infoHeight, palette.panel, palette.border);
+      addRoundedPanel(pdf, marginX + boxWidth + 12, y, boxWidth, infoHeight, palette.panel, palette.border);
+
+      pdf.setFont('helvetica', 'bold');
+      pdf.setFontSize(10);
+      pdf.setTextColor(...palette.badge);
+      pdf.text('Utilisateur', marginX + 14, y + 18);
+      pdf.text('IMC / Objectif', marginX + boxWidth + 26, y + 18);
+
+      pdf.setFont('helvetica', 'normal');
+      pdf.setFontSize(10);
+      pdf.setTextColor(...palette.text);
+      writeWrapped(pdfData.user.name || 'Utilisateur', marginX + 14, y + 35, boxWidth - 28, 11);
+      if (pdfData.user.email) {
+        pdf.setTextColor(...palette.muted);
+        writeWrapped(pdfData.user.email, marginX + 14, y + 53, boxWidth - 28, 9);
+      }
+
+      const contextRight = [
+        `IMC : ${Number(pdfData.context.imc || 0).toFixed(2)}`,
+        `Catégorie : ${pdfData.context.categorie || '-'}`,
+        `Objectif : ${pdfData.context.objectif || '-'}`,
+        `Poids actuel : ${formatKg(pdfData.context.poids_actuel || 0)}`,
+        `Poids cible (IMC = 22) : ${pdfData.context.poids_cible ? formatKg(pdfData.context.poids_cible) : '-'}`,
+      ];
+      let contextY = y + 35;
+      contextRight.forEach((line) => {
+        pdf.setTextColor(...palette.text);
+        pdf.text(line, marginX + boxWidth + 26, contextY);
+        contextY += 15;
+      });
+      y += infoHeight + 18;
+
+      y = addSectionTitle(pdf, 'Régimes suggérés', 'Prix normal ou réduit selon votre statut Gold', marginX, y, contentWidth);
+      if (!pdfData.regimes.length) {
+        ensureSpace(50);
+        pdf.setFont('helvetica', 'normal');
+        pdf.setFontSize(10);
+        pdf.setTextColor(...palette.muted);
+        pdf.text('Aucun régime disponible pour ces critères.', marginX + 14, y + 18);
+        y += 30;
+      } else {
+        pdfData.regimes.forEach((regime) => {
+          const descLines = pdf.splitTextToSize(String(regime.description || ''), contentWidth - 160);
+          const cardHeight = 20 + (descLines.length * 12) + (pdfData.context.gold_active ? 34 : 18) + (regime.duree_jours ? 16 : 0) + (regime.poids_cible ? 32 : 0) + 22;
+          ensureSpace(cardHeight + 12);
+          addRoundedPanel(pdf, marginX, y, contentWidth, cardHeight, palette.panel, palette.border);
+
+          pdf.setFont('helvetica', 'bold');
+          pdf.setFontSize(12);
+          pdf.setTextColor(...palette.text);
+          pdf.text(regime.nom || 'Régime', marginX + 14, y + 18);
+
+          pdf.setFont('helvetica', 'normal');
+          pdf.setFontSize(9.5);
+          pdf.setTextColor(...palette.muted);
+          if (descLines.length) {
+            pdf.text(descLines, marginX + 14, y + 33);
+          }
+
+          let bodyY = y + 33 + (descLines.length * 12);
+          pdf.setFontSize(10);
+          pdf.setTextColor(...palette.text);
+
+          if (pdfData.context.gold_active) {
+            pdf.setFont('helvetica', 'bold');
+            pdf.text(`Prix normal : ${formatMoney(regime.prix_base)}`, marginX + 14, bodyY + 14);
+            pdf.setTextColor(...palette.headerDark);
+            pdf.text(`Prix Gold : ${formatMoney(getCurrentPrice(regime))}`, marginX + 14, bodyY + 28);
+          } else {
+            pdf.setFont('helvetica', 'bold');
+            pdf.text(`Prix : ${formatMoney(regime.prix_base)}`, marginX + 14, bodyY + 14);
+          }
+
+          let metaY = bodyY + (pdfData.context.gold_active ? 42 : 24);
+          if (regime.duree_jours) {
+            pdf.setFont('helvetica', 'normal');
+            pdf.setTextColor(...palette.text);
+            pdf.text(`Durée estimée : ${regime.duree_jours} jours`, marginX + 14, metaY);
+            metaY += 14;
+          }
+          if (regime.variation_par_semaine !== undefined && regime.variation_par_semaine !== null) {
+            pdf.text(`Variation estimée / semaine : ${getVariationLabel(regime)}`, marginX + 14, metaY);
+            metaY += 14;
+          }
+          if (regime.poids_cible) {
+            pdf.text(`Poids cible estimé : ${formatKg(regime.poids_cible)} (IMC = 22)`, marginX + 14, metaY);
+          }
+
+          y += cardHeight + 12;
+        });
+      }
+
+      y = addSectionTitle(pdf, 'Activités suggérées', 'Durée et fréquence recommandées', marginX, y, contentWidth);
+      if (!pdfData.activites.length) {
+        ensureSpace(50);
+        pdf.setFont('helvetica', 'normal');
+        pdf.setFontSize(10);
+        pdf.setTextColor(...palette.muted);
+        pdf.text('Aucune activité disponible pour ces critères.', marginX + 14, y + 18);
+        y += 30;
+      } else {
+        pdfData.activites.forEach((activite) => {
+          const descLines = pdf.splitTextToSize(String(activite.description || ''), contentWidth - 140);
+          const cardHeight = 20 + (descLines.length * 12) + 34;
+          ensureSpace(cardHeight + 12);
+          addRoundedPanel(pdf, marginX, y, contentWidth, cardHeight, palette.panelAlt, palette.border);
+
+          pdf.setFont('helvetica', 'bold');
+          pdf.setFontSize(12);
+          pdf.setTextColor(...palette.text);
+          pdf.text(activite.nom || 'Activité', marginX + 14, y + 18);
+
+          pdf.setFont('helvetica', 'normal');
+          pdf.setFontSize(9.5);
+          pdf.setTextColor(...palette.muted);
+          if (descLines.length) {
+            pdf.text(descLines, marginX + 14, y + 33);
+          }
+
+          let metaY = y + 33 + (descLines.length * 12);
+          pdf.setFontSize(10);
+          pdf.setTextColor(...palette.text);
+          if (activite.duree_semaines) {
+            pdf.text(`Durée estimée : ${activite.duree_semaines} semaines`, marginX + 14, metaY);
+            metaY += 14;
+          }
+          if (activite.frequence) {
+            pdf.text(`Fréquence : ${activite.frequence}`, marginX + 14, metaY);
+          }
+
+          y += cardHeight + 12;
+        });
+      }
+
+      const totalPages = pdf.getNumberOfPages();
+      for (let pageIndex = 1; pageIndex <= totalPages; pageIndex += 1) {
+        pdf.setPage(pageIndex);
+        const footerY = pageHeight - 24;
+        pdf.setDrawColor(...palette.border);
+        pdf.line(marginX, footerY - 10, pageWidth - marginX, footerY - 10);
+        pdf.setFont('helvetica', 'normal');
+        pdf.setFontSize(8.5);
+        pdf.setTextColor(...palette.muted);
+        pdf.text('Regime Pro', marginX, footerY);
+        pdf.text(`Poids cible global : ${getTargetWeightLabel()}`, pageWidth / 2 - 45, footerY);
+        pdf.text(`Page ${pageIndex}/${totalPages}`, pageWidth - marginX - 54, footerY);
+      }
+
+      pdf.save('suggestions_imc.pdf');
+    };
+
+    document.getElementById('exportPdf')?.addEventListener('click', () => {
+      try {
+        exportSuggestionPdf();
+      } catch (err) {
+        console.error(err);
+        alert('Erreur export PDF');
+      }
     });
   </script>
   <?= $this->include('user/_footer') ?>

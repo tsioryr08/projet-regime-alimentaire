@@ -16,7 +16,7 @@ class RegimeModel extends Model
     {
         // Mapper l'objectif sur le sens de variation attendu
         $map = [
-            'augmenter_poids' => 'gain',
+            'augmenter_poids' => 'prise',
             'reduire_poids' => 'perte',
             'atteindre_imc_ideal' => 'stabilite',
         ];
@@ -39,6 +39,32 @@ class RegimeModel extends Model
             $results = $this->where('categorie_imc', $categorie_imc)->findAll(5);
         }
 
-        return $results;
+        return $this->deduplicateRegimes($results);
+    }
+
+    private function deduplicateRegimes(array $regimes): array
+    {
+        $seen = [];
+        $unique = [];
+
+        foreach ($regimes as $regime) {
+            $key = implode('|', [
+                $regime['nom'] ?? '',
+                $regime['description'] ?? '',
+                $regime['prix_base'] ?? '',
+                $regime['duree_jours'] ?? '',
+                $regime['sens_variation'] ?? '',
+                $regime['categorie_imc'] ?? '',
+            ]);
+
+            if (isset($seen[$key])) {
+                continue;
+            }
+
+            $seen[$key] = true;
+            $unique[] = $regime;
+        }
+
+        return $unique;
     }
 }

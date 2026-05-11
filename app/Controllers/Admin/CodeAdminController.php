@@ -12,6 +12,27 @@ class CodeAdminController extends BaseController
         return view('admin/codes/index', ['codes' => $codes]);
     }
 
+    public function create()
+    {
+        if (strtoupper($this->request->getMethod()) === 'POST') {
+            $db = db_connect();
+            $data = [
+                'code'       => $this->request->getPost('code'),
+                'montant'    => $this->request->getPost('montant'),
+                'est_valide' => 1
+            ];
+            
+            try {
+                $db->table('codes')->insert($data);
+                return redirect()->to(site_url('admin/codes'))->with('success', 'Code ajouté avec succès');
+            } catch (\Exception $e) {
+                return redirect()->back()->with('error', 'Erreur lors de l\'ajout, le code existe peut-être déjà.');
+            }
+        }
+
+        return view('admin/codes/create');
+    }
+
     public function validation($id)
     {
         $db = db_connect();

@@ -24,6 +24,32 @@ class ActiviteModel extends Model
             $results = $this->where('categorie_imc', $categorie_imc)->findAll(5);
         }
 
-        return $results;
+        return $this->deduplicateActivites($results);
+    }
+
+    private function deduplicateActivites(array $activites): array
+    {
+        $seen = [];
+        $unique = [];
+
+        foreach ($activites as $activite) {
+            $key = implode('|', [
+                $activite['nom'] ?? '',
+                $activite['description'] ?? '',
+                $activite['duree_semaines'] ?? '',
+                $activite['frequence'] ?? '',
+                $activite['categorie_imc'] ?? '',
+                $activite['objectif_cible'] ?? '',
+            ]);
+
+            if (isset($seen[$key])) {
+                continue;
+            }
+
+            $seen[$key] = true;
+            $unique[] = $activite;
+        }
+
+        return $unique;
     }
 }

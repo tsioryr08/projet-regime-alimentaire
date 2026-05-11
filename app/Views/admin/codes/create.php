@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Admin — Codes</title>
+  <title>Admin — Créer un Code</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -23,14 +23,10 @@
     </aside>
 
     <main class="main">
-      <div class="topbar"><div class="topbar-title">Codes</div></div>
+      <div class="topbar">
+        <div class="topbar-title">Codes - Nouveau</div>
+      </div>
       <div class="content">
-
-        <?php if(session()->getFlashdata('success')): ?>
-          <div class="alert alert-success" style="padding: 15px; background-color: #d4edda; color: #155724; border-radius: 5px; margin-bottom: 20px;">
-            <?= session()->getFlashdata('success') ?>
-          </div>
-        <?php endif; ?>
 
         <?php if(session()->getFlashdata('error')): ?>
           <div class="alert alert-error" style="padding: 15px; background-color: #f8d7da; color: #721c24; border-radius: 5px; margin-bottom: 20px;">
@@ -38,32 +34,27 @@
           </div>
         <?php endif; ?>
 
-        <div class="table-card">
-          <div class="card-header" style="display:flex; justify-content:space-between; align-items:center;">
-            <div><div class="card-title">Liste des codes</div><div class="subtitle">Validation et gestion des codes.</div></div>
-            <a href="<?= site_url('admin/codes/create') ?>" class="btn btn-primary" style="text-decoration:none">+ Nouveau code</a>
+        <div class="form-card">
+          <div class="card-header">
+            <div class="card-title">Ajouter un nouveau code</div>
           </div>
-          <table>
-            <thead><tr><th>ID</th><th>Code</th><th>Montant</th><th>Validité</th><th>Actions</th></tr></thead>
-            <tbody>
-              <?php foreach (($codes ?? []) as $code): ?>
-                <tr>
-                  <td><?= esc($code['id']) ?></td>
-                  <td><?= esc($code['code']) ?></td>
-                  <td><?= esc($code['montant']) ?></td>
-                  <td><?= ((int) $code['est_valide'] === 1) ? '<span class="badge badge-green">Valide</span>' : '<span class="badge badge-red">Invalide</span>' ?></td>
-                  <td style="display:flex; gap:8px; flex-wrap:wrap;">
-                    <form method="post" action="<?= site_url('admin/codes/validation/' . $code['id']) ?>">
-                      <?= csrf_field() ?>
-                      <input type="hidden" name="est_valide" value="<?= ((int) $code['est_valide'] === 1) ? '0' : '1' ?>">
-                      <button type="submit" class="btn btn-secondary btn-sm"><?= ((int) $code['est_valide'] === 1) ? 'Désactiver' : 'Activer' ?></button>
-                    </form>
-                    <a class="btn btn-ghost btn-sm" href="<?= site_url('admin/codes/validation/' . $code['id']) ?>">Modifier</a>
-                  </td>
-                </tr>
-              <?php endforeach; ?>
-            </tbody>
-          </table>
+          <form action="<?= site_url('admin/codes/create') ?>" method="post">
+            <?= csrf_field() ?>
+            <div class="form-group" style="margin-bottom: 15px;">
+              <label for="code" style="display: block; font-weight: 500; margin-bottom: 5px;">Nom du code</label>
+              <input type="text" name="code" id="code" class="form-control" style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 5px;" required placeholder="Ex: PROMO-1234">
+            </div>
+            
+            <div class="form-group" style="margin-bottom: 15px;">
+              <label for="montant" style="display: block; font-weight: 500; margin-bottom: 5px;">Montant (Ar)</label>
+              <input type="number" step="0.01" name="montant" id="montant" class="form-control" style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 5px;" required placeholder="Ex: 5000">
+            </div>
+
+            <div style="margin-top: 20px; display:flex; gap: 10px;">
+              <button type="submit" class="btn btn-primary" style="padding: 10px 20px; background-color: #0f172a; color: white; border: none; border-radius: 5px; cursor: pointer; text-decoration: none;">Enregistrer</button>
+              <a href="<?= site_url('admin/codes') ?>" class="btn btn-secondary" style="padding: 10px 20px; background-color: #f1f5f9; color: #333; border: none; border-radius: 5px; cursor: pointer; text-decoration: none;">Annuler</a>
+            </div>
+          </form>
         </div>
       </div>
     </main>
